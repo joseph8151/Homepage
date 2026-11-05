@@ -53,7 +53,7 @@ export function Footer({ site, services }: { site: SiteInfo; services: Service[]
         <div className="rule-dark mt-10 border-t pt-8 text-[0.82rem] leading-relaxed text-white/45">
           {biz.length > 0 && <p className="mb-3">{biz.join(" · ")}</p>}
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <p>© {new Date().getFullYear()} {site.companyName || site.brandWordmark}. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} {site.companyName || `${site.brandName} ${site.brandEn}`}. All rights reserved.</p>
             <p className="flex gap-6">
               <Link className="u-link text-white/70" href="/privacy">개인정보처리방침</Link>
               <Link className="u-link text-white/70" href="/terms">이용약관</Link>

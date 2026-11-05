@@ -15,7 +15,7 @@ export function meta(opts: { title: string; description: string; path: string; t
       url,
       type: opts.type ?? "website",
       locale: "ko_KR",
-      siteName: defaultSite.brandWordmark,
+      siteName: `${defaultSite.brandName} ${defaultSite.brandEn}`,
       ...(opts.type === "article" ? { publishedTime: opts.publishedTime, modifiedTime: opts.modifiedTime } : {}),
     },
     twitter: { card: "summary_large_image", title: opts.title, description: opts.description },

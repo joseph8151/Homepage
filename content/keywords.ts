@@ -83,4 +83,4 @@ export const serviceGuides: Record<string, string[]> = {
 };
 
 export const allKeywords = keywordClusters.flatMap((c) => [...c.head, ...c.long]);
-export const siteKeywords = keywordClusters.flatMap((c) => c.head);
+export const siteKeywords = ["브랜드웰", "BrandWell", ...keywordClusters.flatMap((c) => c.head)];

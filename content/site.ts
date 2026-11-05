@@ -1,9 +1,10 @@
 /**
- * 사이트 기본 정보 — 브랜드명과 사업자 정보는 이 파일(또는 /admin > 사이트 정보)에서 교체합니다.
+ * 사이트 기본 정보 — 브랜드명과 사업자 정보는 이 파일에서 수정합니다(수정 후 푸시하면 자동 재배포).
  * 확인되지 않은 정보는 비워 두고, 비어 있는 항목은 화면에 표시되지 않습니다.
  */
 export type SiteInfo = {
   brandName: string; // 한글 브랜드명
+  brandEn: string; // 영문 브랜드명(표기 그대로)
   brandWordmark: string; // 로고 워드마크(영문 대문자 권장)
   tagline: string;
   description: string;
@@ -17,8 +18,9 @@ export type SiteInfo = {
 };
 
 export const defaultSite: SiteInfo = {
-  brandName: "브랜드명",
-  brandWordmark: "BRANDNAME",
+  brandName: "브랜드웰",
+  brandEn: "BrandWell",
+  brandWordmark: "BRANDWELL",
   tagline: "홈페이지 제작 · 디지털 웹 솔루션",
   description:
     "기업 홈페이지·쇼핑몰·랜딩페이지 제작부터 리뉴얼, 검색 최적화(SEO), 유지보수까지. 브랜드 전략과 디자인, 개발을 하나의 파트너와 완성하는 홈페이지 제작 전문기업.",

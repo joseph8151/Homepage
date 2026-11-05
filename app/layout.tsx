@@ -12,11 +12,11 @@ export const viewport: Viewport = { themeColor: "#061427", width: "device-width"
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `홈페이지 제작 전문 | ${defaultSite.brandName}`,
-    template: `%s | ${defaultSite.brandName}`,
+    default: `홈페이지 제작 전문 브랜드웰 ${defaultSite.brandEn}`,
+    template: `%s | ${defaultSite.brandName} ${defaultSite.brandEn}`,
   },
   description: "기업 홈페이지, 쇼핑몰, 랜딩페이지, 홈페이지 리뉴얼, SEO까지. 비즈니스의 성과를 설계하는 홈페이지 제작 전문기업.",
-  applicationName: defaultSite.brandName,
+  applicationName: `${defaultSite.brandName} ${defaultSite.brandEn}`,
   keywords: siteKeywords,
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
@@ -41,6 +41,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             "@context": "https://schema.org",
             "@type": "Organization",
             name: site.companyName || site.brandName,
+            alternateName: [site.brandEn, site.brandWordmark],
             url: SITE_URL,
             description: site.description,
             ...(site.email ? { email: site.email } : {}),
