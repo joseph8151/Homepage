@@ -10,7 +10,8 @@
     "cf:build": "opennextjs-cloudflare build",
     "cf:preview": "npm run build && opennextjs-cloudflare preview",
     "cf:deploy": "npm run build && wrangler deploy",
-    "build:next": "next build"
+    "build:next": "next build",
+    "postinstall": "node scripts/cf-postinstall.mjs"
   },
   "dependencies": {
     "next": "^15.5.29",
