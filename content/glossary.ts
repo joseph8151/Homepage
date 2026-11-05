@@ -1,0 +1,33 @@
+export type Term = { name: string; en: string; def: string; service?: string; post?: string };
+
+/** 홈페이지 제작·운영 용어 사전. 정의는 일반적인 설명이며 서비스·제도 변경에 따라 달라질 수 있습니다. */
+export const glossary: Term[] = [
+  { name: "반응형 웹", en: "Responsive Web", def: "화면 크기에 따라 레이아웃이 자동으로 바뀌어 하나의 주소로 PC·태블릿·모바일에 모두 대응하는 웹 제작 방식입니다. 콘텐츠를 한 곳에서 관리할 수 있어 수정과 검색 노출 관리에 유리합니다.", service: "corporate-website", post: "responsive-vs-mobile-site" },
+  { name: "랜딩페이지", en: "Landing Page", def: "광고나 링크를 통해 유입된 방문자가 처음 도착하는 페이지로, 상담 신청·구매 같은 하나의 행동에 집중하도록 설계한 단일 페이지입니다.", service: "landing-page", post: "landing-page-structure" },
+  { name: "CMS", en: "Content Management System", def: "개발 지식 없이도 공지, 블로그, 포트폴리오, 상품 정보 같은 콘텐츠를 입력·수정할 수 있게 해주는 관리 시스템입니다.", service: "cms", post: "site-build-methods-compared" },
+  { name: "SEO", en: "Search Engine Optimization", def: "검색엔진이 사이트를 정확히 이해하고 적절한 검색어에 보여줄 수 있도록 구조, 메타데이터, 콘텐츠, 속도 등을 개선하는 작업입니다. 특정 순위를 보장하는 방법은 없습니다.", service: "seo", post: "naver-search-advisor-guide" },
+  { name: "기술 SEO", en: "Technical SEO", def: "검색 로봇의 수집과 이해를 돕는 사이트 기술 요소(사이트맵, robots.txt, canonical, 구조화 데이터, 속도, 모바일 최적화 등)를 다루는 SEO 영역입니다.", service: "seo" },
+  { name: "메타 태그", en: "Meta Tag", def: "페이지의 제목(title)과 설명(description) 등 정보를 검색엔진과 공유 미리보기에 전달하는 HTML 태그입니다. 페이지마다 고유하게 작성해야 합니다.", service: "seo" },
+  { name: "canonical (대표 주소)", en: "Canonical URL", def: "같은 내용이 여러 주소로 접근될 때 검색엔진에 ‘대표 주소’를 알려주는 설정입니다. 중복 문서로 인한 평가 분산을 줄이는 데 쓰입니다.", service: "seo" },
+  { name: "사이트맵", en: "Sitemap", def: "검색 로봇에게 수집해야 할 페이지 목록을 알려주는 XML 파일입니다. 보통 /sitemap.xml 주소로 제공하며 서치어드바이저·서치콘솔에 제출합니다.", service: "seo", post: "naver-search-advisor-guide" },
+  { name: "robots.txt", en: "robots.txt", def: "검색 로봇이 접근해도 되는 경로와 접근하면 안 되는 경로를 알려주는 텍스트 파일입니다. 잘못 설정하면 사이트 전체가 검색에서 제외될 수 있으므로 배포 시 반드시 확인합니다.", service: "seo" },
+  { name: "구조화 데이터", en: "Structured Data (JSON-LD)", def: "페이지의 의미(조직 정보, 서비스, 글, FAQ 등)를 검색엔진이 이해하기 쉬운 표준 형식으로 표기한 데이터입니다. 적용한다고 해서 노출이 보장되지는 않습니다.", service: "seo" },
+  { name: "301 리디렉션", en: "301 Redirect", def: "페이지 주소가 영구적으로 바뀌었음을 알리고 방문자와 검색 로봇을 새 주소로 보내는 설정입니다. 리뉴얼 시 기존 검색 유입을 지키기 위해 사용합니다.", service: "website-redesign", post: "redesign-keep-search-traffic" },
+  { name: "HTTPS (SSL)", en: "HTTPS / SSL Certificate", def: "사이트와 방문자 사이의 통신을 암호화하는 방식입니다. 인증서가 필요하며, 적용하지 않으면 브라우저에 보안 경고가 표시될 수 있습니다.", service: "infrastructure" },
+  { name: "도메인", en: "Domain", def: "example.com처럼 사이트를 가리키는 인터넷 주소입니다. 사업의 자산이므로 고객사 명의로 등록하는 것을 권장합니다.", service: "infrastructure", post: "domain-hosting-ownership" },
+  { name: "DNS", en: "Domain Name System", def: "도메인을 서버 주소로 연결해 주는 체계입니다. A, CNAME, MX, TXT 같은 레코드로 웹사이트·이메일·소유 확인 등을 설정합니다.", service: "infrastructure", post: "domain-hosting-ownership" },
+  { name: "호스팅", en: "Hosting", def: "웹사이트 파일과 프로그램을 인터넷에 올려 방문자가 접속할 수 있게 해주는 서버 환경입니다. 서버 임대, 클라우드, 배포 서비스 등 형태가 다양합니다.", service: "infrastructure" },
+  { name: "CDN", en: "Content Delivery Network", def: "이미지·스크립트 같은 파일을 여러 지역의 서버에 분산해 방문자와 가까운 곳에서 빠르게 전달하는 구조입니다.", service: "performance" },
+  { name: "Core Web Vitals", en: "Core Web Vitals", def: "구글이 사용자 경험 지표로 제시하는 LCP(주요 콘텐츠 표시 속도), INP(반응성), CLS(레이아웃 안정성) 세 가지 측정 기준입니다.", service: "performance" },
+  { name: "PG (결제대행)", en: "Payment Gateway", def: "쇼핑몰이 카드·간편결제 등을 처리할 수 있도록 결제를 대행하는 사업자입니다. 가입과 심사는 사업자 명의로 진행되며 시간이 걸릴 수 있습니다.", service: "payment-integration", post: "ecommerce-payment-operations-first" },
+  { name: "웹 접근성", en: "Web Accessibility", def: "장애, 연령, 사용 환경과 관계없이 누구나 웹사이트를 이용할 수 있도록 하는 설계 원칙입니다. 키보드 조작, 명도 대비, 대체 텍스트, 폼 레이블 등이 포함됩니다.", service: "accessibility-ux", post: "web-accessibility-basics" },
+  { name: "UI / UX", en: "User Interface / User Experience", def: "UI는 화면의 시각적 구성 요소를, UX는 사용자가 목적을 달성하는 전체 경험을 뜻합니다. 좋은 홈페이지는 둘을 함께 설계합니다.", service: "corporate-website" },
+  { name: "와이어프레임", en: "Wireframe", def: "디자인 전에 화면의 구조와 정보 배치를 단순한 선과 박스로 그려 합의하는 설계 문서입니다.", service: "corporate-website" },
+  { name: "사이트맵 (설계)", en: "Information Architecture", def: "여기서의 사이트맵은 파일이 아니라 사이트의 페이지 구조도를 뜻합니다. 메뉴와 페이지 계층을 정리해 제작 범위의 기준으로 사용합니다.", service: "corporate-website", post: "corporate-website-page-structure" },
+  { name: "QA (검수)", en: "Quality Assurance", def: "출시 전에 기기·브라우저별 표시, 폼 동작, 링크, 성능, 접근성을 점검하고 수정하는 단계입니다.", service: "corporate-website" },
+  { name: "API", en: "Application Programming Interface", def: "서로 다른 프로그램이나 서비스가 데이터를 주고받는 규격입니다. 결제, 알림, CRM 같은 외부 서비스 연동에 사용됩니다.", service: "crm-automation" },
+  { name: "CRM", en: "Customer Relationship Management", def: "고객과 상담 이력을 저장하고 진행 상태를 관리하는 체계입니다. 홈페이지 문의를 CRM에 연결하면 누락을 줄일 수 있습니다.", service: "crm-automation", post: "inquiry-form-design" },
+  { name: "hreflang", en: "hreflang", def: "같은 내용의 언어별 페이지를 검색엔진에 알려주는 표기입니다. 다국어 사이트에서 사용자 언어에 맞는 페이지가 노출되도록 돕습니다.", service: "multilingual-website" },
+  { name: "네이버 서치어드바이저", en: "Naver Search Advisor", def: "사이트 소유자가 네이버 검색에 사이트를 등록하고 사이트맵·RSS 제출, 수집 요청, 수집 현황 확인 등을 할 수 있는 도구입니다.", service: "seo", post: "naver-search-advisor-guide" },
+  { name: "허니팟", en: "Honeypot", def: "사람에게는 보이지 않지만 자동화된 봇은 채우는 숨은 입력창입니다. 값이 채워지면 스팸으로 판단해 문의 폼의 자동 스팸을 줄입니다.", service: "crm-automation" },
+];

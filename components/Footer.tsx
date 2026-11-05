@@ -43,6 +43,7 @@ export function Footer({ site, services }: { site: SiteInfo; services: Service[]
               <li><Link className="u-link" href="/process">프로젝트 진행 과정</Link></li>
               <li><Link className="u-link" href="/estimate">프로젝트 범위 진단</Link></li>
               <li><Link className="u-link" href="/insights">인사이트</Link></li>
+              <li><Link className="u-link" href="/glossary">용어 사전</Link></li>
               <li><Link className="u-link" href="/contact">상담 문의</Link></li>
             </ul>
           </nav>

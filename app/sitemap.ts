@@ -9,7 +9,7 @@ const CONTENT_UPDATED = new Date("2026-11-05");
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [services, projects, posts] = await Promise.all([getServices(), getProjects(), getPosts()]);
   const now = CONTENT_UPDATED;
-  const fixed = ["", "/about", "/services", "/portfolio", "/process", "/estimate", "/solutions", "/insights", "/contact", "/privacy", "/terms"].map((p) => ({
+  const fixed = ["", "/about", "/services", "/portfolio", "/process", "/estimate", "/solutions", "/glossary", "/insights", "/contact", "/privacy", "/terms"].map((p) => ({
     url: `${SITE_URL}${p}`, lastModified: now, changeFrequency: "monthly" as const, priority: p === "" ? 1 : p === "/privacy" || p === "/terms" ? 0.2 : 0.8,
   }));
   return [
