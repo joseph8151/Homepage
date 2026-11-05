@@ -3,9 +3,10 @@ import { FinalCta, ProcessList } from "@/components/sections";
 import { meta } from "@/lib/seo";
 
 export const metadata = meta({
-  title: "홈페이지 제작 과정 | 상담부터 출시·유지관리까지",
-  description: "Discovery부터 Launch & Care까지 6단계. 각 단계에서 고객이 준비할 자료와 회사가 제공하는 결과물을 안내합니다.",
+  title: "홈페이지 제작 과정 6단계 | 상담부터 유지관리까지",
+  description: "홈페이지 제작 순서와 절차. Discovery부터 Launch & Care까지 6단계, 단계별 고객 준비 자료와 제공 결과물을 안내합니다.",
   path: "/process",
+  keywords: ["홈페이지 제작 과정","홈페이지 제작 순서","홈페이지 제작 절차","홈페이지 제작 기간","홈페이지 제작 준비"],
 });
 
 export default function ProcessPage() {

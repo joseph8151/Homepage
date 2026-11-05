@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { JsonLd } from "@/components/JsonLd";
 import { getServices, getSite } from "@/lib/content";
 import { SITE_URL, defaultSite } from "@/content/site";
+import { siteKeywords } from "@/content/keywords";
 
 export const viewport: Viewport = { themeColor: "#061427", width: "device-width", initialScale: 1 };
 
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
   },
   description: "기업 홈페이지, 쇼핑몰, 랜딩페이지, 홈페이지 리뉴얼, SEO까지. 비즈니스의 성과를 설계하는 홈페이지 제작 전문기업.",
   applicationName: defaultSite.brandName,
+  keywords: siteKeywords,
   verification: {
     google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
     other: process.env.NAVER_SITE_VERIFICATION ? { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION } : undefined,

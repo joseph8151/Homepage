@@ -39,6 +39,7 @@ export function Footer({ site, services }: { site: SiteInfo; services: Service[]
             <ul className="mt-6 space-y-2.5 text-[0.95rem] text-white/80">
               <li><Link className="u-link" href="/about">회사소개</Link></li>
               <li><Link className="u-link" href="/portfolio">포트폴리오</Link></li>
+              <li><Link className="u-link" href="/solutions">업종별 제작 가이드</Link></li>
               <li><Link className="u-link" href="/process">프로젝트 진행 과정</Link></li>
               <li><Link className="u-link" href="/estimate">프로젝트 범위 진단</Link></li>
               <li><Link className="u-link" href="/insights">인사이트</Link></li>

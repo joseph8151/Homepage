@@ -8,9 +8,10 @@ import { FaqSection } from "@/components/Faq";
 
 export const revalidate = 60;
 export const metadata = meta({
-  title: "프로젝트 상담 신청 | 홈페이지 제작 견적 문의",
-  description: "프로젝트의 목적과 필요한 기능을 알려주시면 요구사항을 검토해 적합한 제작 방향과 견적을 안내해 드립니다.",
+  title: "홈페이지 제작 견적 문의 | 프로젝트 상담 신청",
+  description: "홈페이지 제작 견적과 상담을 신청하세요. 프로젝트 목적과 필요 기능을 알려주시면 제작 방향과 견적을 안내해 드립니다.",
   path: "/contact",
+  keywords: ["홈페이지 제작 견적","홈페이지 제작 문의","홈페이지 제작 상담","쇼핑몰 제작 견적"],
 });
 
 export default async function Contact() {

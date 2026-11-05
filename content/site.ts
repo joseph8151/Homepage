@@ -21,7 +21,7 @@ export const defaultSite: SiteInfo = {
   brandWordmark: "BRANDNAME",
   tagline: "홈페이지 제작 · 디지털 웹 솔루션",
   description:
-    "브랜드 전략부터 디자인, 개발, 검색 최적화, 운영까지. 비즈니스에 필요한 웹 솔루션을 하나의 파트너와 완성하는 홈페이지 제작 전문기업.",
+    "기업 홈페이지·쇼핑몰·랜딩페이지 제작부터 리뉴얼, 검색 최적화(SEO), 유지보수까지. 브랜드 전략과 디자인, 개발을 하나의 파트너와 완성하는 홈페이지 제작 전문기업.",
   companyName: "",
   representative: "",
   businessNumber: "",

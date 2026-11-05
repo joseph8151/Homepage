@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getService, getServices } from "@/lib/content";
+import { getPost, getPosts, getService, getServices } from "@/lib/content";
 import { defaultServices } from "@/content/services";
 import { Arrow, Button, Label, contactHref } from "@/components/ui";
 import { FinalCta } from "@/components/sections";
@@ -9,6 +9,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { meta } from "@/lib/seo";
 import { SITE_URL } from "@/content/site";
 import { faqs } from "@/content/faq";
+import { serviceGuides } from "@/content/keywords";
 import { FaqSection } from "@/components/Faq";
 
 export const revalidate = 60;
@@ -17,14 +18,26 @@ export const generateStaticParams = () => defaultServices.map((s) => ({ slug: s.
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const s = await getService((await params).slug);
   if (!s) return {};
-  return meta({ title: `${s.name} | ${s.en}`, description: `${s.summary} ${s.problem}`.slice(0, 150), path: `/services/${s.slug}` });
+  const base = s.name;
+  return meta({
+    title: `${s.name} | 비용·기간·제작 범위`,
+    description: `${s.summary} ${s.name}의 제작 범위, 예상 일정, 가격 정책을 안내합니다.`.slice(0, 160),
+    path: `/services/${s.slug}`,
+    keywords: [...(s.keywords ?? []), base, `${base} 비용`, `${base} 업체`, `${base} 기간`, `${base} 견적`, s.en],
+  });
 }
 
 export default async function ServiceDetail({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [s, all] = await Promise.all([getService(slug), getServices()]);
+  const [s, all, posts] = await Promise.all([getService(slug), getServices(), getPosts()]);
   if (!s) notFound();
   const idx = all.findIndex((x) => x.slug === s.slug);
+  const own = [
+    { q: `${s.name} 비용은 어떻게 정해지나요?`, a: `${s.name}의 비용은 제작 범위(${s.scope.slice(0, 4).join(", ")} 등)와 필요한 기능, 콘텐츠 준비 상태에 따라 달라집니다. 현재 가격은 ${s.priceLabel}으로 안내하며, 요구사항을 확인한 뒤 서면 견적으로 확정합니다.`, tags: [] },
+    { q: `${s.name}에는 어떤 작업이 포함되나요?`, a: `기본적으로 ${s.scope.join(", ")} 단계로 진행합니다. 주요 기능으로는 ${s.features.slice(0, 4).join(", ")} 등을 다루며, 세부 범위는 상담 후 합의합니다.`, tags: [] },
+    { q: `${s.name} 제작 기간은 얼마나 걸리나요?`, a: `${s.timeline}. 일정은 범위와 자료 준비 속도, 피드백 주기에 따라 달라지며 상담 후 단계별 일정표로 안내합니다.`, tags: [] },
+  ];
+  const guides = (serviceGuides[s.slug] ?? []).map((g) => posts.find((p) => p.slug === g)).filter(Boolean) as typeof posts;
   const related = [all[(idx + 1) % all.length], all[(idx + 2) % all.length], all[(idx + 3) % all.length]];
 
   return (
@@ -105,7 +118,13 @@ export default async function ServiceDetail({ params }: { params: Promise<{ slug
         </aside>
       </div>
 
-      <FaqSection items={faqs.filter((f) => f.tags.includes("service") || (s.slug === "seo" && f.tags.includes("seo")) || (s.slug === "ecommerce" && f.tags.includes("commerce"))).slice(0, 6)} title="이 서비스에 대한 질문" />
+      <FaqSection items={[...own, ...faqs.filter((f) => f.tags.includes("service") || (s.slug === "seo" && f.tags.includes("seo")) || (s.slug === "ecommerce" && f.tags.includes("commerce"))).slice(0, 3)]} title={`${s.name} 자주 묻는 질문`} />
+      {guides.length > 0 && (
+        <section className="bg-white py-16" aria-labelledby="guide"><div className="wrap">
+          <h2 id="guide" className="t-label text-mute">함께 읽으면 좋은 가이드</h2>
+          <ul className="mt-6 grid border-t border-navy md:grid-cols-3">{guides.map((p) => <li key={p.slug} className="border-b border-line md:border-r md:last:border-r-0 md:px-6 md:first:pl-0"><Link href={`/insights/${p.slug}`} className="group block py-5"><p className="t-label text-accent" style={{ letterSpacing: ".08em" }}>{p.category}</p><p className="mt-2 font-semibold leading-snug"><span className="u-link">{p.title}</span></p></Link></li>)}</ul>
+        </div></section>
+      )}
       <section className="bg-off py-20 md:py-24" aria-labelledby="rel">
         <div className="wrap">
           <h2 id="rel" className="t-label text-mute">Related services</h2>

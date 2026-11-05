@@ -12,9 +12,10 @@ import { FaqSection } from "@/components/Faq";
 
 export const revalidate = 60;
 export const metadata = meta({
-  title: "홈페이지 제작 서비스 전체 | 기업 홈페이지·쇼핑몰·랜딩페이지·리뉴얼",
-  description: "기업 홈페이지, 쇼핑몰, 랜딩페이지, 홈페이지 리뉴얼, SEO, 유지보수까지 20개 웹 서비스의 제작 범위와 일정, 가격 정책을 확인하세요.",
+  title: "홈페이지 제작 서비스 20종 | 비용·기간·제작 범위",
+  description: "기업 홈페이지·쇼핑몰·랜딩페이지·리뉴얼·SEO·유지보수 등 20개 웹 서비스의 제작 범위, 일정, 가격 정책(별도 견적)과 패키지 비교를 확인하세요.",
   path: "/services",
+  keywords: ["홈페이지 제작 서비스","홈페이지 제작 비용","홈페이지 제작 견적","웹사이트 제작","홈페이지 제작 범위"],
 });
 
 export default async function ServicesPage() {
@@ -23,6 +24,7 @@ export default async function ServicesPage() {
     <>
       <PageHead label="Services" title={<>서비스의 범위는 넓게,<br />완성도의 기준은 높게.</>} lead="목적에 맞는 서비스를 선택하세요. 여러 서비스를 함께 진행하는 프로젝트도 하나의 일정과 하나의 담당 체계로 관리합니다.">
         <Link href="/estimate" className="u-link mt-6 inline-block font-semibold text-accent">어떤 서비스가 필요한지 모르겠다면 → 프로젝트 범위 진단</Link>
+        <Link href="/solutions" className="u-link mt-3 block font-semibold text-accent">병원·법률·학원 등 업종별 제작 가이드 →</Link>
       </PageHead>
       <section className="bg-white py-16 md:py-24" aria-label="전체 서비스 목록">
         <div className="wrap"><ServiceExplorer groups={serviceGroups} services={services.map((s) => ({ slug: s.slug, no: s.no, name: s.name, en: s.en, summary: s.summary, featured: featuredSlugs.includes(s.slug) }))} /></div>

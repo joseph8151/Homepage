@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getPost, getPosts, getSite } from "@/lib/content";
+import { getPost, getPosts, getServices, getSite } from "@/lib/content";
 import { defaultPosts } from "@/content/posts";
+import { postServices } from "@/content/keywords";
 import { parseBody } from "@/lib/post-body";
 import { Button, Label } from "@/components/ui";
 import { JsonLd } from "@/components/JsonLd";
@@ -14,16 +15,17 @@ export const generateStaticParams = () => defaultPosts.map((p) => ({ slug: p.slu
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const p = await getPost((await params).slug);
   if (!p) return {};
-  return meta({ title: p.title, description: p.excerpt, path: `/insights/${p.slug}`, type: "article", publishedTime: p.publishedAt, modifiedTime: p.updatedAt });
+  return meta({ title: p.title, description: p.excerpt, path: `/insights/${p.slug}`, type: "article", publishedTime: p.publishedAt, modifiedTime: p.updatedAt, keywords: [p.category, ...p.title.split(/[,，·]/).map((x) => x.trim()).filter((x) => x.length > 3 && x.length < 30)] });
 }
 
 export default async function Article({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const [post, posts, site] = await Promise.all([getPost(slug), getPosts(), getSite()]);
+  const [post, posts, site, allServices] = await Promise.all([getPost(slug), getPosts(), getSite(), getServices()]);
   if (!post) notFound();
   const blocks = parseBody(post.body);
   const toc = blocks.filter((b) => b.type === "h2") as Extract<(typeof blocks)[number], { type: "h2" }>[];
   const related = [...posts.filter((p) => p.slug !== post.slug && p.category === post.category), ...posts.filter((p) => p.slug !== post.slug && p.category !== post.category)].slice(0, 3);
+  const relSvc = (postServices[slug] ?? []).map((x) => allServices.find((s) => s.slug === x)).filter(Boolean) as typeof allServices;
   const fmt = (d: string) => d.replaceAll("-", ".");
   const chars = post.body.replace(/\s/g, "").length;
   const minutes = Math.max(1, Math.round(chars / 500));
@@ -75,6 +77,10 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
               {older ? <Link href={`/insights/${older.slug}`} className="group py-6 sm:pr-6"><p className="t-label text-mute">← 이전 글</p><p className="mt-2 font-semibold leading-snug"><span className="u-link">{older.title}</span></p></Link> : <span />}
               {newer ? <Link href={`/insights/${newer.slug}`} className="group border-line py-6 sm:border-l sm:pl-6 sm:text-right"><p className="t-label text-mute">다음 글 →</p><p className="mt-2 font-semibold leading-snug"><span className="u-link">{newer.title}</span></p></Link> : <span />}
             </nav>
+          )}
+          {relSvc.length > 0 && (
+            <div className="mt-12"><p className="t-label text-mute">관련 서비스</p>
+              <ul className="mt-4 border-t border-navy">{relSvc.map((s) => <li key={s.slug} className="border-b border-line"><Link href={`/services/${s.slug}`} className="group flex items-center justify-between py-3.5 font-medium"><span className="u-link">{s.name}</span><span aria-hidden className="transition-transform group-hover:translate-x-1">→</span></Link></li>)}</ul></div>
           )}
           <aside className="on-dark mt-16 bg-navy p-8 text-white">
             <p className="t-label text-[#8db2ff]">Consultation</p>

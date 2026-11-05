@@ -13,9 +13,10 @@ import { FaqSection } from "@/components/Faq";
 
 export const revalidate = 60;
 export const metadata = meta({
-  title: "홈페이지 제작 전문 | 기업 홈페이지·쇼핑몰·랜딩페이지·SEO",
-  description: "기업 홈페이지 제작, 쇼핑몰, 랜딩페이지, 홈페이지 리뉴얼, SEO까지. 디자인과 기술, 비즈니스 전략을 결합해 성과를 설계하는 홈페이지 제작 전문기업.",
+  title: "홈페이지 제작 업체 | 기업 홈페이지·쇼핑몰·랜딩페이지",
+  description: "홈페이지 제작 전문. 기업 홈페이지, 쇼핑몰, 랜딩페이지, 홈페이지 리뉴얼, SEO와 유지보수까지 비즈니스 성과를 설계합니다. 비용·기간 상담 가능.",
   path: "/",
+  keywords: ["홈페이지 제작","홈페이지 제작 업체","기업 홈페이지 제작","쇼핑몰 제작","랜딩페이지 제작","홈페이지 리뉴얼","반응형 홈페이지 제작","홈페이지 유지보수","웹사이트 제작"],
 });
 
 const keywords = ["WEB DESIGN", "DEVELOPMENT", "E-COMMERCE", "SEO", "DIGITAL STRATEGY"];
