@@ -20,6 +20,9 @@ Worker 이름은 `homepage` (`wrangler.jsonc`의 `name`) → 주소 `homepage.<�
 Node 버전은 저장소의 `.node-version`(22)이 사용됩니다.
 저장 후 **Deployments → 다시 배포** → 주소 새로고침. 이 단계에서는 사이트 전체가 보이고, 상담 폼은 “시스템 미연결”을 안내합니다(거짓 접수 없음).
 
+### 빌드가 두 번 도는 경우
+같은 커밋을 `main`과 다른 브랜치에 동시에 푸시하면 Cloudflare가 빌드를 두 번 실행하고, **비운영 브랜치 빌드는 실패로 표시**될 수 있습니다(운영 배포는 `main` 빌드 결과가 기준). 확인은 대시보드 Deployments의 `main` 빌드로 하세요. 비운영 브랜치 빌드가 필요 없으면 Settings → Build → *Non-production branch builds*를 끄세요.
+
 ### 빌드가 실패한다면
 1. **Settings → Builds**에서 실패한 빌드를 열어 **로그 마지막 오류 줄**을 확인합니다.
 2. Worker 이름이 `homepage`와 같은지, Production branch가 `main`인지 확인합니다.
