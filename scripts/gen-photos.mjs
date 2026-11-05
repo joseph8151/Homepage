@@ -8,7 +8,7 @@ import path from "node:path";
 const root = new URL("../", import.meta.url).pathname;
 const DIR = path.join(root, "public", "images");
 const OUT = path.join(root, "content", "photos.generated.json");
-const prefix = { desk: "work-desk", portrait: "portrait-light", laptop: "laptop-beige", coffee: "coffee-break" };
+const prefix = { desk: "work-desk", portrait: "portrait-light", laptop: "laptop-beige", coffee: "coffee-break", studio: "studio-black" };
 
 let files = [];
 try { files = fs.readdirSync(DIR).filter((f) => /\.(jpe?g|png|webp)$/i.test(f)).sort(); } catch {}
@@ -26,7 +26,7 @@ if (files.length) {
   const put = (slot, x) => { out[slot] = { src: `/images/${x.f}`, w: x.w, h: x.h }; used.add(x.f); };
   for (const slot of Object.keys(prefix)) { const x = info.find((i) => i.f.toLowerCase().startsWith(prefix[slot])); if (x) put(slot, x); }
   const land = info.filter((i) => i.land && !used.has(i.f)), port = info.filter((i) => !i.land && !used.has(i.f));
-  for (const slot of ["desk", "laptop"]) if (!out[slot] && land.length) put(slot, land.shift());
+  for (const slot of ["desk", "laptop", "studio"]) if (!out[slot] && land.length) put(slot, land.shift());
   for (const slot of ["portrait", "coffee"]) if (!out[slot] && port.length) put(slot, port.shift());
 }
 fs.writeFileSync(OUT, JSON.stringify(out, null, 2) + "\n");

@@ -18,5 +18,10 @@
     "src": "/images/coffee-break.jpg",
     "w": 784,
     "h": 1168
+  },
+  "studio": {
+    "src": "/images/studio-black.jpg",
+    "w": 1712,
+    "h": 1152
   }
 }
