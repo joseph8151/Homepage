@@ -5,7 +5,7 @@
 ## 1. 이 사이트에 이미 적용된 것
 | 항목 | 위치 | 비고 |
 |---|---|---|
-| 소유 확인 메타 태그 | `NAVER_SITE_VERIFICATION` 환경변수 → `<meta name="naver-site-verification">` | 값만 넣고 재배포 |
+| 소유 확인 메타 태그 | `NAVER_SITE_VERIFICATION` 빌드 변수 → `<meta name="naver-site-verification">` | 값만 넣고 재배포 |
 | robots.txt (Yeti·Daumoa·Googlebot 명시 허용, `/admin`·`/api` 차단) | `app/robots.ts` | 봇별 블록은 `*` 규칙을 상속하지 않아 동일 규칙을 반복 |
 | XML 사이트맵 (서비스 20 · 업종 8 · 포트폴리오 · 인사이트 전체) | `/sitemap.xml` (`app/sitemap.ts`) | 정적 페이지 lastmod는 `CONTENT_UPDATED` 상수 — 내용을 실제로 갱신할 때만 수정 |
 | RSS 2.0 (인사이트) | `/feed.xml` | 글 제목·링크·발행일·카테고리·요약 |
@@ -17,7 +17,7 @@
 
 ## 2. 서치어드바이저 등록 절차 (배포 후 1회)
 1. [searchadvisor.naver.com](https://searchadvisor.naver.com) 로그인 → **웹마스터 도구 → 사이트 등록**: 실제 도메인(`https://…`) 입력.
-2. 소유 확인 방식에서 **HTML 태그** 선택 → `content` 값 복사 → 호스팅 환경변수 `NAVER_SITE_VERIFICATION`에 입력 → 재배포 → **소유 확인**.
+2. 소유 확인 방식에서 **HTML 태그** 선택 → `content` 값 복사 → Cloudflare **빌드 변수** `NAVER_SITE_VERIFICATION`에 입력 → 재배포 → **소유 확인**.
 3. **요청 → 사이트맵 제출**: `https://도메인/sitemap.xml`
 4. **요청 → RSS 제출**: `https://도메인/feed.xml`
 5. **검증 → robots.txt**: 수집 허용 상태인지 확인(Yeti).

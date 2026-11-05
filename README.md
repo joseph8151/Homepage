@@ -1,13 +1,15 @@
 # 홈페이지 제작 에이전시 웹사이트
 
-Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · Supabase. 패키지는 최소화했습니다(next, react, supabase-js, server-only).
+Next.js 15 (App Router) · TypeScript · Tailwind CSS v4 · **Cloudflare Workers + D1 + R2** (OpenNext). 패키지는 최소화했습니다.
 
 ```bash
 npm install
-cp .env.example .env.local   # 값 채우기 (없어도 사이트는 열립니다. 상담 저장·관리자만 비활성)
 npm run dev                  # http://localhost:3000
-npm run build && npm start
+npm run build                # Cloudflare Workers용 번들 생성(.open-next)
+npm run cf:preview           # Workers 런타임으로 미리보기
 ```
+
+배포·데이터 연결(D1/R2)·관리자 설정은 **[`docs/CLOUDFLARE.md`](docs/CLOUDFLARE.md)** 를 따르세요.
 
 ## 구조
 
@@ -19,13 +21,13 @@ npm run build && npm start
 | `content/portfolio.ts` | 포트폴리오(현재 전부 Concept Project) |
 | `content/posts.ts` | 블로그 샘플 5편 |
 | `content/process.ts` | 진행 6단계, 차별점 |
-| `lib/content.ts` | 기본 데이터 + Supabase `site_content` 덮어쓰기 병합 |
+| `lib/content.ts` | 콘텐츠 로더(`content/*.ts`) |
 | `components/visuals/Screens.tsx` | 히어로 데모·포트폴리오 콘셉트 화면(코드로 제작) |
 | `app/api/inquiries` | 상담 접수(서버 검증·스팸 방어·파일 검증) |
-| `app/api/admin/*`, `/admin` | 관리자 로그인·상담 관리·CSV·콘텐츠 편집 |
-| `supabase/schema.sql` | 테이블·RLS·비공개 스토리지 |
+| `app/api/admin/*`, `/admin` | 관리자 로그인·상담 관리·CSV·메모 |
+| `lib/cf.ts` | D1/R2 바인딩·테이블 자동 생성 |
 
-콘텐츠 수정 방법은 두 가지입니다: ① `content/*.ts` 직접 수정 ② `/admin`에서 수정(DB 값이 기본값을 덮어씀, 최대 1분 내 반영).
+콘텐츠는 `content/*.ts`를 수정하고 GitHub에 푸시하면 Cloudflare가 자동 재배포합니다.
 
 ## 주요 기능
 서비스 20개(검색·분류 필터) · 패키지 비교표 · **프로젝트 범위 진단(`/estimate`, 가격 산정 없음)** · FAQ(+FAQPage 구조화 데이터) · 블로그 12편(검색·읽는 시간·이전/다음·RSS `/feed.xml`) · 상담 폼(임시저장·서비스/패키지/진단 결과 자동 반영) · 신규 상담 알림(선택) · 관리자 개요 대시보드·내부 메모·CSV · 동적 OG 이미지.
@@ -41,4 +43,4 @@ npm run build && npm start
 - DB가 연결되지 않으면 상담 폼은 **접수 완료를 표시하지 않고** "시스템 미연결" 오류를 보여줍니다.
 - 사업자 정보가 비어 있으면 푸터·약관에 표시되지 않습니다. 개인정보처리방침/이용약관은 **기본 양식**이므로 법률 검토 후 확정하세요.
 
-배포·환경변수·검색엔진 등록: [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md)
+검색엔진 등록: [`docs/NAVER_SEO.md`](docs/NAVER_SEO.md)

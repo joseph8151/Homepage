@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { randomUUID } from "node:crypto";
-import { adminClient, isDbConfigured, INQUIRY_BUCKET } from "@/lib/supabase";
+import { bucket, db, hasDb } from "@/lib/cf";
 import { clientIp, matchesSignature, rateLimit, sameOrigin } from "@/lib/security";
 import { FILE_RULES, REQUIRED_KEYS, OPTIONAL_KEYS, normalizeUrl, validateField, type InquiryInput } from "@/lib/validation";
 import { budgetOptions, contactMethods, PRIVACY_CONSENT_VERSION, timelineOptions } from "@/content/site";
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   const ip = clientIp(req);
   if (!rateLimit(`inq:${ip}`, 5, 10 * 60_000)) return fail(429, "RATE_LIMITED", "짧은 시간에 너무 많은 요청이 있었습니다. 잠시 후 다시 시도해 주세요.");
 
-  if (!isDbConfigured())
+  if (!hasDb())
     return fail(503, "NOT_CONFIGURED", "상담 접수 시스템(데이터베이스)이 아직 연결되지 않아 신청을 저장할 수 없습니다. 접수되지 않았으니 다른 방법으로 문의해 주세요.");
 
   let fd: FormData;
@@ -87,43 +87,33 @@ export async function POST(req: NextRequest) {
 
   if (Object.keys(errors).length) return fail(422, "VALIDATION", "입력 내용을 확인해 주세요.", errors);
 
-  const db = adminClient();
+  const d = await db().catch(() => null);
+  if (!d) return fail(503, "NOT_CONFIGURED", "상담 접수 시스템(데이터베이스)에 연결하지 못했습니다. 접수되지 않았으니 다른 방법으로 문의해 주세요.");
+  const files = bucket();
   let attachmentPath: string | null = null;
   if (fileBuf) {
+    if (!files) return fail(503, "NOT_CONFIGURED", "파일 저장소(R2)가 연결되지 않아 첨부할 수 없습니다. 파일 없이 신청해 주세요.");
     // 원본 파일명은 사용하지 않고 랜덤 경로에 저장합니다.
     const contentTypes: Record<string, string> = { pdf: "application/pdf", png: "image/png", jpg: "image/jpeg", jpeg: "image/jpeg" };
     attachmentPath = `${new Date().toISOString().slice(0, 7)}/${randomUUID()}.${ext}`;
-    const up = await db.storage.from(INQUIRY_BUCKET).upload(attachmentPath, fileBuf, {
-      contentType: contentTypes[ext] ?? "application/octet-stream",
-      upsert: false,
-    });
-    if (up.error) {
-      console.error("[inquiry] upload failed", up.error.message);
+    try {
+      await files.put(attachmentPath, fileBuf, { httpMetadata: { contentType: contentTypes[ext] ?? "application/octet-stream" } });
+    } catch (e) {
+      console.error("[inquiry] upload failed", String(e));
       return fail(500, "UPLOAD_FAILED", "파일 업로드에 실패했습니다. 파일 없이 다시 시도하시거나 잠시 후 시도해 주세요.");
     }
   }
 
-  const { error } = await db.from("inquiries").insert({
-    name: input.name,
-    company: input.company,
-    email: input.email,
-    phone: input.phone,
-    selected_services: input.selected_services,
-    budget: input.budget,
-    timeline: input.timeline,
-    project_description: input.project_description,
-    current_website: normalizeUrl(input.current_website) || null,
-    reference_website: normalizeUrl(input.reference_website) || null,
-    attachment_path: attachmentPath,
-    preferred_contact: input.preferred_contact || null,
-    privacy_consent: true,
-    consent_version: PRIVACY_CONSENT_VERSION,
-    status: "NEW",
-  });
-
-  if (error) {
-    console.error("[inquiry] insert failed", error.message);
-    if (attachmentPath) await db.storage.from(INQUIRY_BUCKET).remove([attachmentPath]);
+  try {
+    await d.prepare(`INSERT INTO inquiries (id, created_at, name, company, email, phone, selected_services, budget, timeline, project_description,
+      current_website, reference_website, attachment_path, preferred_contact, privacy_consent, consent_version, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, 'NEW')`).bind(
+      randomUUID(), new Date().toISOString(), input.name, input.company, input.email, input.phone, JSON.stringify(input.selected_services),
+      input.budget, input.timeline, input.project_description, normalizeUrl(input.current_website) || null, normalizeUrl(input.reference_website) || null,
+      attachmentPath, input.preferred_contact || null, PRIVACY_CONSENT_VERSION).run();
+  } catch (e) {
+    console.error("[inquiry] insert failed", String(e));
+    if (attachmentPath) await files?.delete(attachmentPath).catch(() => {});
     return fail(500, "SAVE_FAILED", "상담 신청을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.");
   }
   // 알림은 저장 성공 이후에만, 실패해도 접수에는 영향 없음

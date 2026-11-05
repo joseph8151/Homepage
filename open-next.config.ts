@@ -1,5 +1,8 @@
 import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 
-// 기본 설정: 사전 렌더링된 페이지는 정적 에셋으로 제공됩니다.
-// ISR 재검증(관리자에서 콘텐츠 수정 후 즉시 반영)을 쓰려면 R2/KV 캐시 바인딩을 추가하세요(docs/CLOUDFLARE.md).
-export default defineCloudflareConfig();
+// `npm run build` = OpenNext 빌드(Workers용 번들 생성). 내부적으로는 일반 Next 빌드를 실행합니다.
+// 사전 렌더링된 페이지는 정적 에셋으로 제공되어 빠르고 CPU 제한에 안전합니다.
+export default {
+  ...defineCloudflareConfig(),
+  buildCommand: "next build",
+};

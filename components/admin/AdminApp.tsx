@@ -2,13 +2,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { api } from "./api";
 import { InquiriesPanel } from "./InquiriesPanel";
-import { ContentPanels } from "./ContentPanels";
 import { Overview } from "./Overview";
 
 type Me = { state: "loading" } | { state: "unconfigured" } | { state: "anon" } | { state: "in"; email: string };
-const tabs = [
-  ["overview", "개요"], ["inquiries", "상담 신청"], ["services", "서비스·가격"], ["packages", "패키지"], ["projects", "포트폴리오"], ["posts", "블로그"], ["site", "기본 정보"],
-] as const;
+const tabs = [["overview", "개요"], ["inquiries", "상담 신청"]] as const;
 
 export function AdminApp() {
   const [me, setMe] = useState<Me>({ state: "loading" });
@@ -29,7 +26,7 @@ export function AdminApp() {
       <div className={`${wrap} flex items-center justify-center p-6`}>
         <div className="max-w-xl border border-line bg-white p-8">
           <h1 className="text-2xl font-bold">관리자 기능이 아직 연결되지 않았습니다</h1>
-          <p className="mt-4 text-mute">관리자 로그인과 데이터 관리를 사용하려면 환경변수 <code>NEXT_PUBLIC_SUPABASE_URL</code>, <code>NEXT_PUBLIC_SUPABASE_ANON_KEY</code>, <code>SUPABASE_SERVICE_ROLE_KEY</code>, <code>ADMIN_EMAILS</code> 를 설정하고 <code>supabase/schema.sql</code> 을 적용해야 합니다. 자세한 방법은 <code>docs/DEPLOYMENT.md</code> 를 참고하세요.</p>
+          <p className="mt-4 text-mute">Cloudflare에 D1 데이터베이스(<code>DB</code>)를 연결하고 <code>ADMIN_EMAILS</code>, <code>ADMIN_PASSWORD</code> 시크릿을 설정해야 합니다. 자세한 방법은 <code>docs/CLOUDFLARE.md</code>를 참고하세요.</p>
         </div>
       </div>
     );
@@ -53,7 +50,7 @@ export function AdminApp() {
         </nav>
       </header>
       <main className="mx-auto max-w-[1400px] px-5 py-8">
-        {tab === "overview" ? <Overview /> : tab === "inquiries" ? <InquiriesPanel /> : <ContentPanels which={tab} />}
+        {tab === "overview" ? <Overview /> : <InquiriesPanel />}
       </main>
     </div>
   );

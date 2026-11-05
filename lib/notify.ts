@@ -1,6 +1,7 @@
 import "server-only";
 import { defaultServices } from "@/content/services";
 import { SITE_URL } from "@/content/site";
+import { secret } from "./cf";
 
 type N = { name: string; company: string; services: string[]; budget: string; timeline: string; hasFile: boolean };
 const esc = (s: string) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
@@ -18,7 +19,7 @@ export async function notifyNewInquiry(n: N) {
   const text = `새 상담 신청\n${n.company} / ${n.name}\n관심 서비스: ${svc}\n예산: ${n.budget} · 일정: ${n.timeline}${n.hasFile ? " · 첨부 있음" : ""}\n확인: ${link}`;
   const jobs: Promise<unknown>[] = [];
 
-  const key = process.env.RESEND_API_KEY, to = process.env.NOTIFY_EMAIL_TO, from = process.env.NOTIFY_EMAIL_FROM;
+  const key = secret("RESEND_API_KEY"), to = secret("NOTIFY_EMAIL_TO"), from = secret("NOTIFY_EMAIL_FROM");
   if (key && to && from) {
     jobs.push(withTimeout(fetch("https://api.resend.com/emails", {
       method: "POST",
@@ -26,7 +27,7 @@ export async function notifyNewInquiry(n: N) {
       body: JSON.stringify({ from, to: to.split(",").map((x) => x.trim()), subject: `[상담 신청] ${n.company} / ${n.name}`, html: `<p>${esc(text).replace(/\n/g, "<br>")}</p>` }),
     })));
   }
-  const hook = process.env.NOTIFY_WEBHOOK_URL;
+  const hook = secret("NOTIFY_WEBHOOK_URL");
   if (hook && /^https:\/\//.test(hook)) {
     jobs.push(withTimeout(fetch(hook, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ text, content: text }) })));
   }

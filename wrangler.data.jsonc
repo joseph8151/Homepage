@@ -1,0 +1,13 @@
+{
+  // 데이터 저장(상담·관리자)까지 켠 전체 설정. 1단계(사이트 노출) 확인 후 wrangler.jsonc 대신 사용합니다. docs/CLOUDFLARE.md 참고.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "homepage",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2025-04-01",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": { "directory": ".open-next/assets", "binding": "ASSETS" },
+  "observability": { "enabled": true },
+  // database_id / bucket 이름을 생략하면 wrangler가 배포 때 자동 생성합니다(wrangler 4.45+).
+  "d1_databases": [{ "binding": "DB", "database_name": "homepage-db" }],
+  "r2_buckets": [{ "binding": "UPLOADS", "bucket_name": "homepage-uploads" }]
+}
