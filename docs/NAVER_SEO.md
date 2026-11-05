@@ -50,5 +50,5 @@
 - [ ] `NEXT_PUBLIC_SITE_URL`이 실제 도메인으로 설정됨 (canonical·sitemap·OG 기준)
 - [ ] HTTPS 적용, `www`/non-`www` 중 한 곳으로 리디렉션
 - [ ] `NAVER_SITE_VERIFICATION`, `GOOGLE_SITE_VERIFICATION` 설정
-- [ ] 사업자 정보 입력 (`content/site.ts`의 상호·대표·사업자등록번호·주소·연락처 — 브랜드명은 “브랜드웰 / BrandWell”로 반영됨)
+- [ ] 사업자 정보 입력 (`content/site.ts`의 상호·대표·사업자등록번호·주소·연락처 — 브랜드명은 “웹노블로 / WebNoblo”로 반영됨)
 - [ ] `app/layout.tsx`·`content/site.ts`의 브랜드 문구 최종 확인
