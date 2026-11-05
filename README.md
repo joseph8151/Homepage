@@ -15,7 +15,7 @@ npm run cf:preview           # Workers 런타임으로 미리보기
 
 | 경로 | 역할 |
 |---|---|
-| `content/site.ts` | **브랜드명(웹노블로 WebNoblo)·사업자 정보**, 메뉴, 예산/일정 옵션 |
+| `content/site.ts` | **브랜드명(웹몬트로 WebMontro)·사업자 정보**, 메뉴, 예산/일정 옵션 |
 | `content/services.ts` | 서비스 20개 데이터(가격 `priceLabel` 기본 "별도 견적") |
 | `content/packages.ts` | 패키지 4종 |
 | `content/portfolio.ts` | 포트폴리오(현재 전부 Concept Project) |

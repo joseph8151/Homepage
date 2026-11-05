@@ -18,9 +18,9 @@ export type SiteInfo = {
 };
 
 export const defaultSite: SiteInfo = {
-  brandName: "웹노블로",
-  brandEn: "WebNoblo",
-  brandWordmark: "WEBNOBLO",
+  brandName: "웹몬트로",
+  brandEn: "WebMontro",
+  brandWordmark: "WEBMONTRO",
   tagline: "홈페이지 제작 · 디지털 웹 솔루션",
   description:
     "기업 홈페이지·쇼핑몰·랜딩페이지 제작부터 리뉴얼, 검색 최적화(SEO), 유지보수까지. 브랜드 전략과 디자인, 개발을 하나의 파트너와 완성하는 홈페이지 제작 전문기업.",

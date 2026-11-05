@@ -12,7 +12,7 @@ export const viewport: Viewport = { themeColor: "#061427", width: "device-width"
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `홈페이지 제작 전문 웹노블로 ${defaultSite.brandEn}`,
+    default: `홈페이지 제작 전문 웹몬트로 ${defaultSite.brandEn}`,
     template: `%s | ${defaultSite.brandName} ${defaultSite.brandEn}`,
   },
   description: "기업 홈페이지, 쇼핑몰, 랜딩페이지, 홈페이지 리뉴얼, SEO까지. 비즈니스의 성과를 설계하는 홈페이지 제작 전문기업.",
