@@ -6,7 +6,7 @@ import type { Photo as P } from "@/content/photos";
  */
 export function PhotoFrame({ photo, ratio, className = "", priority = false, sizes }: { photo: P; ratio: string; className?: string; priority?: boolean; sizes?: string }) {
   return (
-    <figure className={`crop group text-navy/60 ${className}`}>
+    <figure className={`group ${className}`}>
       <div className="relative w-full overflow-hidden bg-navy" style={{ aspectRatio: ratio }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

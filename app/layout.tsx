@@ -32,6 +32,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="ko">
       <head>
         <link rel="preconnect" href="https://cdn.jsdelivr.net" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&display=swap" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" />
         <noscript><style>{`.reveal{opacity:1!important;transform:none!important}`}</style></noscript>
       </head>

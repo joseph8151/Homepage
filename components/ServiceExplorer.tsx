@@ -36,7 +36,7 @@ export function ServiceExplorer({ services, groups }: { services: S[]; groups: G
           {list.map((s) => (
             <li key={s.slug} className="border-b border-line">
               <Link href={`/services/${s.slug}`} className="row-hover group grid gap-x-8 gap-y-3 py-7 md:grid-cols-12 md:py-9">
-                <span aria-hidden className="num-outline text-[2.4rem] text-navy/30 md:col-span-1">{s.no}</span>
+                <span aria-hidden className="pt-2 text-[0.85rem] tabular-nums text-mute md:col-span-1">{s.no}</span>
                 <div className="md:col-span-4"><h2 className="text-[1.5rem] font-semibold tracking-tight md:text-[1.75rem]"><span className="u-link">{s.name}</span></h2><p className="t-label mt-3 text-mute" style={{ letterSpacing: ".1em" }}>{s.en}</p></div>
                 <p className="t-body text-mute md:col-span-5">{s.summary}</p>
                 <div className="flex items-start justify-between gap-4 md:col-span-2 md:justify-end">

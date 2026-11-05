@@ -10,9 +10,9 @@ export const Arrow = ({ className = "" }: { className?: string }) => (
 type BtnProps = { href: string; children: ReactNode; variant?: "solid" | "outline" | "light" | "ghost"; className?: string; size?: "md" | "lg" };
 const base = "btn group inline-flex items-center justify-center gap-3 font-semibold tracking-tight min-h-12 whitespace-nowrap";
 const variants = {
-  solid: "btn-solid chamfer bg-accent text-white",
+  solid: "btn-solid bg-accent text-white",
   outline: "border border-current",
-  light: "btn-light chamfer bg-white text-navy",
+  light: "btn-light bg-white text-navy",
   ghost: "btn-ghost text-current hover:opacity-70",
 };
 export function Button({ href, children, variant = "solid", className = "", size = "md" }: BtnProps) {
@@ -24,18 +24,20 @@ export function Button({ href, children, variant = "solid", className = "", size
   );
 }
 
+const ko: Record<string, string> = {
+  Services: "서비스", Portfolio: "포트폴리오", "What we do": "하는 일", "Project process": "진행 과정", Packages: "패키지", "Why choose us": "일하는 방식",
+  Insights: "인사이트", FAQ: "자주 묻는 질문", Contact: "상담 신청", About: "회사소개", Glossary: "용어 사전", Solutions: "업종별 가이드", "Scope check": "범위 진단",
+  Concerns: "고민", Structure: "구성", Features: "기능", Consultation: "상담", Commitments: "약속", "Our approach": "접근 방식", Problem: "문제",
+  "Key features": "주요 기능", Scope: "범위", Audience: "대상", "Start a project": "프로젝트 시작", Privacy: "개인정보", Terms: "약관",
+};
+/** 영문 대문자 아이브로우 대신 평문 한글 라벨을 씁니다(템플릿 느낌 제거). */
 export const Label = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
-  <p className={`t-label flex items-center gap-3 ${className}`}>
-    <span aria-hidden className="ticks" />
-    {children}
-  </p>
+  <p className={`text-[0.84rem] font-medium ${className}`}>{typeof children === "string" ? ko[children] ?? children : children}</p>
 );
 
 export function PageHead({ label, title, lead, children }: { label: string; title: ReactNode; lead?: ReactNode; children?: ReactNode }) {
   return (
     <header className="relative overflow-hidden bg-off pt-36 pb-16 md:pt-48 md:pb-24">
-      <span aria-hidden className="outline-word -bottom-[1.4vw] right-[-1vw] uppercase" style={{ fontSize: "clamp(4rem, 14vw, 15rem)" }}>{label}</span>
-      <span aria-hidden className="plus left-[4vw] top-28 hidden md:block" />
       <div className="wrap relative grid gap-10 md:grid-cols-12">
         <div className="md:col-span-8">
           <Label className="text-accent">{label}</Label>

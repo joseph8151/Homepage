@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  --font-serif: "Noto Serif KR", "Nanum Myeongjo", "Apple SD Gothic Neo", Georgia, serif;
   --color-navy: #081b33;
   --color-deep: #061427;
   --color-royal: #123763;
@@ -32,7 +33,7 @@ p { text-wrap: pretty; }
 .t-hero { font-size: clamp(2.5rem, 1.2rem + 5.6vw, 5.25rem); line-height: 1.06; letter-spacing: -0.05em; font-weight: 780; }
 .t-section { font-size: clamp(2.125rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.14; letter-spacing: -0.045em; font-weight: 720; }
 .t-sub { font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem); line-height: 1.25; letter-spacing: -0.035em; font-weight: 600; }
-.t-label { font-family: var(--font-sans); font-size: 0.75rem; line-height: 1; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; }
+.t-label { font-family: var(--font-sans); font-size: 0.72rem; line-height: 1.2; letter-spacing: 0.1em; font-weight: 500; text-transform: uppercase; }
 .t-body { font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem); line-height: 1.8; }
 .t-small { font-size: 0.9rem; line-height: 1.7; }
 
@@ -138,3 +139,5 @@ p { text-wrap: pretty; }
 .row-hover { position: relative; }
 .row-hover::before { content: ""; position: absolute; left: 0; top: -1px; bottom: -1px; width: 3px; background: var(--color-accent); transform: scaleY(0); transform-origin: top; transition: transform .45s cubic-bezier(.7,0,.2,1); }
 .row-hover:hover::before { transform: scaleY(1); }
+
+.serif { font-family: var(--font-serif); font-weight: 400; letter-spacing: -0.02em; }

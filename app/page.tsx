@@ -9,8 +9,7 @@ import { Reveal } from "@/components/Reveal";
 import { FinalCta, PricingTable, ProcessList, ProjectMeta, ProjectVisual } from "@/components/sections";
 import { meta } from "@/lib/seo";
 import { getSite } from "@/lib/content";
-import { photo } from "@/lib/photos";
-import { photos } from "@/content/photos";
+import { getPhotos } from "@/lib/photos";
 import { PhotoFrame } from "@/components/Photo";
 import { faqs } from "@/content/faq";
 import { FaqSection } from "@/components/Faq";
@@ -37,21 +36,18 @@ export default async function Home() {
   const featured = featuredSlugs.map((s) => services.find((x) => x.slug === s)!).filter(Boolean);
   const rest = services.filter((s) => !featuredSlugs.includes(s.slug));
   const showcase = projects.slice(0, 3);
-  const pDesk = photo(photos.desk);
-  const pPortrait = photo(photos.portrait);
+  const ph = await getPhotos();
+  const pDesk = ph.desk, pPortrait = ph.portrait;
 
   return (
     <>
       {/* 01 HERO */}
       <section className="on-dark relative overflow-hidden bg-deep text-white" aria-labelledby="hero-title">
         <div aria-hidden className="hero-lift absolute inset-0" />
-        <span aria-hidden className="outline-word bottom-[1.2rem] left-0 right-0 text-center" style={{ fontSize: "min(15.6vw, 300px)" }}>{site.brandWordmark}</span>
-        <span aria-hidden className="plus left-[calc(96px*8-6px)] top-[calc(96px*2-6px)] hidden lg:block" />
-        <span aria-hidden className="plus left-[calc(96px*12-6px)] top-[calc(96px*7-6px)] hidden lg:block" />
         <div aria-hidden className="grid-lines absolute inset-0" />
         <div className="wrap relative grid gap-16 pb-36 pt-36 md:pt-44 lg:grid-cols-12 lg:gap-10 lg:pb-44">
           <div className="lg:col-span-7">
-            <Label className="text-[#8db2ff]">Digital experiences. Built for business.</Label>
+            <p className="t-label text-[#8db2ff]" style={{ letterSpacing: "0.16em" }}>Digital experiences. Built for business.</p>
             <h1 id="hero-title" className="t-hero mt-8">
               <span className="block text-white/60" style={{ fontWeight: 300 }}>웹사이트를 넘어,</span>
               <span className="block">비즈니스의 <span className="text-[#6ea0ff]">성과</span>를</span>
@@ -85,7 +81,7 @@ export default async function Home() {
       </section>
 
       {/* 02 INTRODUCTION */}
-      <section id="intro" className="bg-white py-20 md:py-32" aria-labelledby="intro-title">
+      <section id="intro" className="bg-white pt-24 pb-20 md:pt-40 md:pb-28" aria-labelledby="intro-title">
         <div className="wrap">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-7">
@@ -94,10 +90,9 @@ export default async function Home() {
                 <h2 id="intro-title" className="t-section mt-6">디자인의 완성도와<br />비즈니스의 목적을<br />연결합니다.</h2>
               </Reveal>
             </div>
-            <div className="space-y-6 lg:col-span-4 lg:col-start-9 lg:pt-24">
-              <Reveal delay={120}><p className="t-body text-mute">홈페이지는 완성된 순간이 아니라, 방문자가 문의라는 행동을 하는 순간에 비로소 제 역할을 합니다. 우리는 화면을 꾸미기 전에 이 사이트가 어떤 일을 해야 하는지부터 정의합니다.</p></Reveal>
-              <Reveal delay={180}><p className="t-body text-mute">같은 템플릿에 로고만 바꾸는 방식이 아니라, 사업의 구조와 고객의 판단 과정에 맞춰 정보 구조와 디자인, 개발을 하나의 기준으로 설계합니다.</p></Reveal>
-              <Reveal delay={240}><p className="t-body text-mute">출시는 끝이 아니라 시작입니다. 검색 노출을 위한 기술 구조, 수정이 쉬운 관리 환경, 이후의 운영과 유지관리까지 함께 고려합니다.</p></Reveal>
+            <div className="space-y-5 lg:col-span-4 lg:col-start-9 lg:pt-28">
+              <Reveal delay={120}><p className="t-body text-navy/75">화면을 꾸미기 전에, 이 사이트가 무슨 일을 해야 하는지부터 정합니다. 문의를 받을지, 물건을 팔지, 회사를 믿게 만들지. 답이 정해지면 나머지는 훨씬 단순해집니다.</p></Reveal>
+              <Reveal delay={180}><p className="t-body text-mute">템플릿에 로고만 얹지 않습니다. 사업이 어떻게 돌아가는지, 손님이 무엇을 보고 결정하는지에서 출발해 구조와 디자인, 개발을 한 팀이 끝까지 맡습니다. 출시 뒤에 고치고 운영하는 일까지 감안해서 만듭니다.</p></Reveal>
             </div>
           </div>
           {(pDesk || pPortrait) && (
@@ -106,21 +101,16 @@ export default async function Home() {
               {pPortrait && <Reveal delay={140} className="md:col-span-4 md:mt-24"><PhotoFrame photo={pPortrait} ratio="4 / 5" sizes="(min-width: 768px) 33vw, 100vw" /></Reveal>}
             </div>
           )}
-          <ul className="mt-20 grid border-t border-line md:mt-28 md:grid-cols-2 lg:grid-cols-3">
-            {intro.map((t, i) => (
-              <li key={t} className="border-b border-line py-6 md:py-8 lg:[&:nth-child(3n+1)]:pl-0 lg:pl-8 lg:[&:not(:nth-child(3n+1))]:border-l md:[&:nth-child(even)]:border-l md:[&:nth-child(even)]:pl-8 md:[&:nth-child(odd)]:pl-0 lg:[&:nth-child(even)]:pl-8">
-                <Reveal delay={i * 50} className="flex items-baseline gap-5">
-                  <span className="t-label text-accent">0{i + 1}</span>
-                  <span className="text-[1.15rem] font-semibold tracking-tight">{t}</span>
-                </Reveal>
-              </li>
+          <ul className="mt-20 grid gap-x-12 md:mt-28 md:grid-cols-2 lg:grid-cols-3">
+            {intro.map((t) => (
+              <li key={t} className="border-t border-navy/15 py-5 text-[1.12rem] font-semibold tracking-tight">{t}</li>
             ))}
           </ul>
         </div>
       </section>
 
       {/* 03 SERVICES */}
-      <section className="bg-off py-20 md:py-32" aria-labelledby="svc-title">
+      <section className="bg-off py-16 md:py-28" aria-labelledby="svc-title">
         <div className="wrap">
           <div className="grid gap-8 md:grid-cols-12">
             <div className="md:col-span-8">
@@ -131,31 +121,30 @@ export default async function Home() {
           </div>
 
           <ol className="mt-16 border-t border-navy md:mt-24">
-            {featured.map((s, i) => (
+            {featured.map((s) => (
               <li key={s.slug} className="border-b border-line">
-                <Link href={`/services/${s.slug}`} className="row-hover group grid gap-x-10 gap-y-5 py-9 md:grid-cols-12 md:items-center md:py-12">
-                  <span aria-hidden className="num-outline text-[3.6rem] text-navy/30 md:col-span-2 md:text-[5.5rem]">0{i + 1}</span>
-                  <div className="md:col-span-4">
-                    <h3 className="t-sub transition-transform duration-500 group-hover:translate-x-2" style={{ fontSize: "clamp(1.85rem,1.1rem+2.4vw,3.25rem)" }}>{s.name}</h3>
-                    <p className="t-label mt-4 text-mute">{s.en}</p>
+                <Link href={`/services/${s.slug}`} className="row-hover group grid gap-x-10 gap-y-4 py-9 md:grid-cols-12 md:items-baseline md:py-12">
+                  <div className="md:col-span-6">
+                    <h3 className="t-sub transition-transform duration-500 group-hover:translate-x-2" style={{ fontSize: "clamp(1.9rem,1.1rem+2.6vw,3.4rem)" }}>{s.name}</h3>
+                    <p className="t-small mt-3 text-mute">{s.en}</p>
                   </div>
                   <div className="md:col-span-5">
-                    <p className="t-body text-mute">{s.summary}</p>
-                    <p className="t-small mt-4 text-navy/70">{s.features.slice(0, 3).join(" · ")}</p>
+                    <p className="t-body text-navy/75">{s.summary}</p>
+                    <p className="t-small mt-3 text-mute">{s.features.slice(0, 3).join(", ")}</p>
                   </div>
-                  <span className="hidden items-center justify-end md:col-span-1 md:flex"><Arrow className="text-navy transition-transform duration-300 group-hover:translate-x-2" /></span>
+                  <span className="hidden justify-end md:col-span-1 md:flex"><Arrow className="text-navy transition-transform duration-300 group-hover:translate-x-2" /></span>
                 </Link>
               </li>
             ))}
           </ol>
 
           <div className="mt-20 grid gap-10 md:grid-cols-12">
-            <p className="t-label text-mute md:col-span-3">More services — {rest.length}</p>
+            <p className="text-[0.9rem] font-medium text-mute md:col-span-3">나머지 서비스 {rest.length}개</p>
             <ul className="grid gap-x-12 md:col-span-9 md:grid-cols-2">
               {rest.map((s) => (
                 <li key={s.slug} className="border-t border-line">
                   <Link href={`/services/${s.slug}`} className="group flex items-baseline justify-between gap-4 py-4">
-                    <span className="flex items-baseline gap-4"><span className="t-label w-5 text-mute">{s.no}</span><span className="font-medium"><span className="u-link">{s.name}</span></span></span>
+                    <span className="flex items-baseline gap-4"><span className="font-medium"><span className="u-link">{s.name}</span></span></span>
                     <span className="t-small hidden text-mute lg:block">{s.en}</span>
                   </Link>
                 </li>
@@ -166,7 +155,7 @@ export default async function Home() {
       </section>
 
       {/* 04 PORTFOLIO */}
-      <section className="bg-white py-20 md:py-32" aria-labelledby="pf-title">
+      <section className="bg-white pt-20 pb-24 md:pt-36 md:pb-40" aria-labelledby="pf-title">
         <div className="wrap">
           <div className="grid gap-8 md:grid-cols-12">
             <div className="md:col-span-8">
@@ -196,6 +185,14 @@ export default async function Home() {
         </div>
       </section>
 
+      <section className="bg-white pb-20 md:pb-32" aria-label="브랜드 관점">
+        <div className="wrap">
+          <Reveal className="max-w-4xl md:ml-[16.66%]">
+            <p className="serif text-[clamp(1.6rem,1rem+2.4vw,3rem)] leading-[1.35] text-navy">좋은 홈페이지는 보기 좋은 디자인에서 끝나지 않습니다.<br /><span className="text-navy/55">비즈니스의 성과를 설계합니다.</span></p>
+          </Reveal>
+        </div>
+      </section>
+
       {/* 05 PROCESS */}
       <section className="on-dark bg-navy py-20 text-white md:py-32" aria-labelledby="pr-title">
         <div className="wrap grid gap-14 lg:grid-cols-12">
@@ -203,7 +200,7 @@ export default async function Home() {
             <div className="lg:sticky lg:top-32">
               <Label className="text-[#8db2ff]">Project process</Label>
               <h2 id="pr-title" className="t-section mt-6">여섯 단계로<br />투명하게<br />진행합니다.</h2>
-              <p className="t-body mt-7 max-w-sm text-white/65">단계마다 고객이 준비할 자료와 회사가 전달하는 결과물을 문서로 명확히 합니다.</p>
+              <p className="t-body mt-7 max-w-sm text-white/65">단계마다 고객이 준비할 자료와 우리가 내놓는 결과물을 문서로 남깁니다.</p>
               <Button href="/process" variant="outline" className="mt-9">진행 과정 자세히 보기</Button>
             </div>
           </div>
@@ -212,14 +209,14 @@ export default async function Home() {
       </section>
 
       {/* 06 PRICING */}
-      <section className="bg-white py-20 md:py-32" aria-labelledby="pk-title" id="pricing">
+      <section className="bg-white py-20 md:py-28" aria-labelledby="pk-title" id="pricing">
         <div className="wrap">
           <div className="grid gap-8 md:grid-cols-12">
             <div className="md:col-span-8">
               <Label className="text-accent">Packages</Label>
               <h2 id="pk-title" className="t-section mt-6">필요한 범위에 맞춰<br />선택하십시오.</h2>
             </div>
-            <p className="t-body text-mute md:col-span-4 md:self-end">패키지는 출발점입니다. 실제 제작 범위와 견적은 요구사항을 확인한 뒤 확정합니다.</p>
+            <p className="t-body text-mute md:col-span-4 md:self-end">패키지는 출발점일 뿐입니다. 실제 범위와 견적은 요구사항을 들어본 뒤에 정합니다.</p>
           </div>
           <div className="mt-14 md:mt-20"><PricingTable packages={packages} notice={packageNotice} /></div>
           <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-y border-line py-6">
@@ -230,18 +227,18 @@ export default async function Home() {
       </section>
 
       {/* 07 WHY */}
-      <section className="bg-off py-20 md:py-32" aria-labelledby="why-title">
+      <section className="bg-off py-16 md:py-24" aria-labelledby="why-title">
         <div className="wrap grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Label className="text-accent">Why choose us</Label>
             <h2 id="why-title" className="t-section mt-6">제작 그 이후까지<br />생각합니다.</h2>
           </div>
           <ul className="lg:col-span-7">
-            {whyPoints.map((w, i) => (
+            {whyPoints.map((w) => (
               <li key={w.t} className="border-t border-navy/15 last:border-b">
-                <Reveal className="group grid gap-2 py-6 sm:grid-cols-[4.5rem_1fr] md:py-7">
-                  <span className="num-outline text-[2.2rem] text-navy/30">0{i + 1}</span>
-                  <div><h3 className="text-[1.2rem] font-semibold tracking-tight">{w.t}</h3><p className="t-small mt-1.5 text-mute">{w.d}</p></div>
+                <Reveal className="grid gap-x-8 gap-y-1.5 py-6 md:grid-cols-[1fr_1.1fr] md:py-7">
+                  <h3 className="text-[1.2rem] font-semibold tracking-tight">{w.t}</h3>
+                  <p className="t-small text-mute">{w.d}</p>
                 </Reveal>
               </li>
             ))}

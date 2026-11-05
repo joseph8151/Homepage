@@ -3,8 +3,7 @@ import { whyPoints } from "@/content/process";
 import { Label, PageHead } from "@/components/ui";
 import { FinalCta } from "@/components/sections";
 import { meta } from "@/lib/seo";
-import { photo } from "@/lib/photos";
-import { photos } from "@/content/photos";
+import { getPhotos } from "@/lib/photos";
 import { PhotoFrame } from "@/components/Photo";
 
 export const metadata = meta({
@@ -15,8 +14,8 @@ export const metadata = meta({
 
 export default async function About() {
   const site = await getSite();
-  const pLaptop = photo(photos.laptop);
-  const pCoffee = photo(photos.coffee);
+  const ph = await getPhotos();
+  const pLaptop = ph.laptop, pCoffee = ph.coffee;
   const info = [["상호", site.companyName], ["대표", site.representative], ["사업자등록번호", site.businessNumber], ["주소", site.address], ["이메일", site.email], ["연락처", site.phone], ["운영시간", site.hours]].filter(([, v]) => v);
   return (
     <>

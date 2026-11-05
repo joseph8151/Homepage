@@ -12,7 +12,7 @@ export function ProjectVisual({ p, ratio = "16 / 10", priority = false }: { p: P
   const [rw, rh] = ratio.split("/").map((x) => parseFloat(x));
   const tall = rw / rh < 1.5;
   return (
-    <div className="crop text-navy/60">
+    <div>
     <div className="zoom-wrap relative w-full bg-line" style={{ aspectRatio: ratio }}>
       <div className="absolute inset-0">
         {p.imageUrl ? (
@@ -53,8 +53,8 @@ export function ProcessList({ detailed = false }: { detailed?: boolean }) {
       {processSteps.map((s) => (
         <li key={s.no}>
           <Reveal className="grid gap-x-10 gap-y-4 py-8 md:grid-cols-12 md:py-10">
-            <div className="group flex items-center gap-6 md:col-span-5">
-              <span className="num-outline w-[4.2rem] shrink-0 text-[3.4rem] text-white/45 md:w-[5.2rem] md:text-[4.2rem]">{s.no}</span>
+            <div className="group flex items-start gap-4 md:col-span-5">
+              <span className="w-9 shrink-0 self-start pt-2 text-[0.85rem] tabular-nums text-white/40">{s.no}</span>
               <div>
                 <h3 className="t-sub font-medium" style={{ fontSize: "clamp(1.5rem,1rem+1.3vw,2rem)", letterSpacing: "-0.02em" }}>{s.en}</h3>
                 <p className="mt-1 text-[0.95rem] text-white/55">{s.ko}</p>
@@ -116,8 +116,6 @@ export function FinalCta({ service, title = "좋은 프로젝트는\n좋은 대�
   return (
     <section className="on-dark relative overflow-hidden bg-deep py-24 text-white md:py-36" aria-labelledby="cta-title">
       <div aria-hidden className="grid-lines absolute inset-0 opacity-60" />
-      <span aria-hidden className="outline-word bottom-[-2.5vw] left-[-0.5vw]" style={{ fontSize: "clamp(5rem, 19vw, 20rem)" }}>START</span>
-      <span aria-hidden className="plus right-[6vw] top-16 hidden md:block" />
       <div className="wrap relative grid gap-12 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
           <Label className="text-[#8db2ff]">Start a project</Label>
