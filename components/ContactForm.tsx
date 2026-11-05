@@ -38,11 +38,28 @@ function Inner({ services, packages, fallback }: { services: Svc[]; packages: Pk
     const picked: string[] = [];
     const s = sp.get("service");
     const p = sp.get("package");
-    if (s && opts.services.includes(s)) picked.push(s);
+    (s ?? "").split(",").forEach((x) => { if (opts.services.includes(x)) picked.push(x); });
+    const note = sp.get("note");
+    if (note) setV((cur) => (cur.project_description ? cur : { ...cur, project_description: note.slice(0, 1500) }));
     const pk = packages.find((x) => x.id === p);
     if (pk) { picked.push(...pk.defaultServices.filter((x) => opts.services.includes(x))); setFromPkg(pk.name); }
     if (picked.length) setV((cur) => ({ ...cur, selected_services: Array.from(new Set(picked)) }));
   }, [sp, packages, opts.services]);
+
+  // 임시저장: 작성 중인 내용(파일 제외)을 이 브라우저에만 보관합니다.
+  const DRAFT = "inquiry-draft-v1";
+  const [draftRestored, setDraftRestored] = useState(false);
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRAFT);
+      if (raw && !sp.get("service") && !sp.get("package") && !sp.get("note")) { setV({ ...empty, ...JSON.parse(raw), privacy_consent: false }); setDraftRestored(true); }
+    } catch {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    const t = setTimeout(() => { try { const { privacy_consent, ...rest } = v; if (Object.values(rest).some((x) => (Array.isArray(x) ? x.length : x))) localStorage.setItem(DRAFT, JSON.stringify(rest)); } catch {} }, 600);
+    return () => clearTimeout(t);
+  }, [v]);
 
   const check = (key: keyof InquiryInput, next: InquiryInput) => validateField(key, next, opts);
   const set = <K extends keyof InquiryInput>(key: K, value: InquiryInput[K]) => {
@@ -84,7 +101,7 @@ function Inner({ services, packages, fallback }: { services: Svc[]; packages: Pk
       if (file) fd.set("attachment", file);
       const res = await fetch("/api/inquiries", { method: "POST", body: fd });
       const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok) { setState("success"); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
+      if (res.ok && data.ok) { try { localStorage.removeItem(DRAFT); } catch {} setState("success"); window.scrollTo({ top: 0, behavior: "smooth" }); return; }
       if (data.fields) setErrors(data.fields);
       setServerMsg({ code: data.code, text: data.message || "상담 신청을 접수하지 못했습니다. 잠시 후 다시 시도해 주세요." });
       setState("error");
@@ -112,6 +129,7 @@ function Inner({ services, packages, fallback }: { services: Svc[]; packages: Pk
 
   return (
     <form ref={formRef} onSubmit={onSubmit} noValidate className="space-y-14" aria-busy={state === "submitting"}>
+      {draftRestored && <p className="flex flex-wrap items-center justify-between gap-3 border-l-2 border-accent bg-off px-4 py-3 text-[0.92rem]"><span>이전에 작성하던 내용을 불러왔습니다. (이 브라우저에만 저장됩니다)</span><button type="button" className="u-link font-semibold" onClick={() => { try { localStorage.removeItem(DRAFT); } catch {} setV(empty); setDraftRestored(false); }}>처음부터 작성</button></p>}
       {fromPkg && <p className="border-l-2 border-accent bg-off px-4 py-3 text-[0.92rem]">‘{fromPkg}’ 패키지 기준으로 관심 서비스를 선택해 두었습니다. 필요에 따라 변경하세요.</p>}
 
       <fieldset className="space-y-6">

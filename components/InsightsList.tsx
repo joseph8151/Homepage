@@ -5,7 +5,9 @@ import type { Post } from "@/content/posts";
 
 export function InsightsList({ posts, categories }: { posts: Post[]; categories: readonly string[] }) {
   const [cat, setCat] = useState("전체");
-  const list = cat === "전체" ? posts : posts.filter((p) => p.category === cat);
+  const [q, setQ] = useState("");
+  const t = q.trim().toLowerCase();
+  const list = posts.filter((p) => (cat === "전체" || p.category === cat) && (!t || `${p.title} ${p.excerpt}`.toLowerCase().includes(t)));
   return (
     <div>
       <div role="group" aria-label="카테고리 필터" className="flex flex-wrap gap-x-6 gap-y-1 border-b border-line pb-4">
@@ -14,7 +16,8 @@ export function InsightsList({ posts, categories }: { posts: Post[]; categories:
             className={`min-h-11 border-b-2 py-2 text-[0.92rem] font-medium transition-colors ${cat === c ? "border-accent text-navy" : "border-transparent text-mute hover:text-navy"}`}>{c}</button>
         ))}
       </div>
-      {list.length === 0 ? <p className="py-24 text-center text-mute">이 카테고리의 글이 아직 없습니다.</p> : (
+      <div className="mt-5 max-w-sm"><label htmlFor="post-q" className="sr-only">글 검색</label><input id="post-q" type="search" className="field !py-2.5" placeholder="글 검색 (예: 비용, SEO)" value={q} onChange={(e) => setQ(e.target.value)} /></div>
+      {list.length === 0 ? <p className="py-24 text-center text-mute">조건에 맞는 글이 없습니다.</p> : (
         <ul>
           {list.map((p) => (
             <li key={p.slug} className="border-b border-line">

@@ -5,6 +5,7 @@ import { clientIp, matchesSignature, rateLimit, sameOrigin } from "@/lib/securit
 import { FILE_RULES, REQUIRED_KEYS, OPTIONAL_KEYS, normalizeUrl, validateField, type InquiryInput } from "@/lib/validation";
 import { budgetOptions, contactMethods, PRIVACY_CONSENT_VERSION, timelineOptions } from "@/content/site";
 import { defaultServices } from "@/content/services";
+import { notifyNewInquiry } from "@/lib/notify";
 
 export const runtime = "nodejs";
 
@@ -125,5 +126,7 @@ export async function POST(req: NextRequest) {
     if (attachmentPath) await db.storage.from(INQUIRY_BUCKET).remove([attachmentPath]);
     return fail(500, "SAVE_FAILED", "상담 신청을 저장하지 못했습니다. 잠시 후 다시 시도해 주세요.");
   }
+  // 알림은 저장 성공 이후에만, 실패해도 접수에는 영향 없음
+  await notifyNewInquiry({ name: input.name, company: input.company, services: input.selected_services, budget: input.budget, timeline: input.timeline, hasFile: !!attachmentPath });
   return NextResponse.json({ ok: true });
 }

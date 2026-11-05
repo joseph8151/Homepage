@@ -24,6 +24,9 @@ create table if not exists public.inquiries (
     check (status in ('NEW','CONTACTED','QUOTED','IN PROGRESS','CLOSED'))
 );
 
+-- 관리자 내부 메모 (기존 DB에 적용할 때도 안전)
+alter table public.inquiries add column if not exists admin_note text check (char_length(admin_note) <= 4000);
+
 create index if not exists inquiries_created_at_idx on public.inquiries (created_at desc);
 create index if not exists inquiries_status_idx on public.inquiries (status);
 

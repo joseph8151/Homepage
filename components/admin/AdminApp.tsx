@@ -3,15 +3,16 @@ import { useCallback, useEffect, useState } from "react";
 import { api } from "./api";
 import { InquiriesPanel } from "./InquiriesPanel";
 import { ContentPanels } from "./ContentPanels";
+import { Overview } from "./Overview";
 
 type Me = { state: "loading" } | { state: "unconfigured" } | { state: "anon" } | { state: "in"; email: string };
 const tabs = [
-  ["inquiries", "상담 신청"], ["services", "서비스·가격"], ["packages", "패키지"], ["projects", "포트폴리오"], ["posts", "블로그"], ["site", "기본 정보"],
+  ["overview", "개요"], ["inquiries", "상담 신청"], ["services", "서비스·가격"], ["packages", "패키지"], ["projects", "포트폴리오"], ["posts", "블로그"], ["site", "기본 정보"],
 ] as const;
 
 export function AdminApp() {
   const [me, setMe] = useState<Me>({ state: "loading" });
-  const [tab, setTab] = useState<(typeof tabs)[number][0]>("inquiries");
+  const [tab, setTab] = useState<(typeof tabs)[number][0]>("overview");
 
   const load = useCallback(async () => {
     const r = await api("/api/admin/me");
@@ -52,7 +53,7 @@ export function AdminApp() {
         </nav>
       </header>
       <main className="mx-auto max-w-[1400px] px-5 py-8">
-        {tab === "inquiries" ? <InquiriesPanel /> : <ContentPanels which={tab} />}
+        {tab === "overview" ? <Overview /> : tab === "inquiries" ? <InquiriesPanel /> : <ContentPanels which={tab} />}
       </main>
     </div>
   );

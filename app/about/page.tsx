@@ -35,6 +35,25 @@ export default async function About() {
           ))}</ul>
         </div>
       </section>
+      <section className="bg-white py-20 md:py-28" aria-labelledby="promise">
+        <div className="wrap grid gap-12 lg:grid-cols-12">
+          <div className="lg:col-span-5"><Label className="text-accent">Commitments</Label><h2 id="promise" className="t-section mt-6">약속드리는 것,<br />하지 않는 것.</h2></div>
+          <div className="grid gap-10 sm:grid-cols-2 lg:col-span-7">
+            <div>
+              <p className="t-label text-accent">우리는 합니다</p>
+              <ul className="mt-5 space-y-3 text-[0.98rem]">
+                {["제작 전에 범위·일정·비용을 문서로 합의합니다", "단계마다 결과물을 보여드리고 검수를 받습니다", "도메인·계정·산출물의 권리 범위를 계약에 명시합니다", "출시 후 운영 방법을 문서로 인계합니다"].map((x) => <li key={x} className="flex gap-3 border-t border-line pt-3"><span aria-hidden className="text-accent">—</span>{x}</li>)}
+              </ul>
+            </div>
+            <div>
+              <p className="t-label text-mute">우리는 하지 않습니다</p>
+              <ul className="mt-5 space-y-3 text-[0.98rem] text-navy/80">
+                {["검색 순위·매출 증가를 보장하는 약속", "확인할 수 없는 수치와 가공된 후기 게시", "고객 동의 없는 소스·계정 보유로 인한 종속", "필요 이상의 기능을 끼워 넣는 견적"].map((x) => <li key={x} className="flex gap-3 border-t border-line pt-3"><span aria-hidden className="text-mute">×</span>{x}</li>)}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
       {info.length > 0 && (
         <section className="bg-white py-20 md:py-28"><div className="wrap grid gap-10 lg:grid-cols-12">
           <h2 className="t-sub lg:col-span-5">회사 정보</h2>

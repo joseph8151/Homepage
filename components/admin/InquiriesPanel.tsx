@@ -7,7 +7,7 @@ import { api } from "./api";
 type Row = {
   id: string; created_at: string; name: string; company: string; email: string; phone: string; selected_services: string[];
   budget: string; timeline: string; project_description: string; current_website: string | null; reference_website: string | null;
-  attachment_path: string | null; preferred_contact: string | null; consent_version: string; status: string;
+  attachment_path: string | null; preferred_contact: string | null; consent_version: string; status: string; admin_note: string | null;
 };
 const svc = (s: string) => defaultServices.find((x) => x.slug === s)?.name ?? s;
 const color: Record<string, string> = { NEW: "bg-accent text-white", CONTACTED: "bg-[#e1e8f2] text-navy", QUOTED: "bg-[#f6ecd2] text-[#7a5a0b]", "IN PROGRESS": "bg-[#d9f0e4] text-[#1c6b46]", CLOSED: "bg-line text-mute" };
@@ -81,6 +81,7 @@ export function InquiriesPanel() {
               ))}
               <div className="border-t border-line pt-3"><dt className="text-mute">프로젝트 내용</dt><dd className="mt-2 whitespace-pre-wrap leading-relaxed">{open.project_description}</dd></div>
             </dl>
+            <NoteBox key={open.id} id={open.id} initial={open.admin_note ?? ""} onSaved={(v) => setRows((rs) => rs.map((x) => (x.id === open.id ? { ...x, admin_note: v } : x)))} />
             <div className="mt-8 flex flex-wrap gap-3">
               <a className="min-h-10 bg-navy px-4 py-2.5 text-sm font-semibold text-white" href={`mailto:${open.email}`}>이메일 보내기</a>
               {open.attachment_path && <a className="min-h-10 border border-navy px-4 py-2.5 text-sm font-semibold" href={`/api/admin/attachment?id=${open.id}`}>첨부파일 다운로드</a>}
@@ -89,6 +90,23 @@ export function InquiriesPanel() {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+function NoteBox({ id, initial, onSaved }: { id: string; initial: string; onSaved: (v: string) => void }) {
+  const [v, setV] = useState(initial); const [msg, setMsg] = useState(""); const [busy, setBusy] = useState(false);
+  return (
+    <div className="mt-6 border-t border-line pt-4">
+      <label htmlFor="d-note" className="mb-1 block text-xs font-semibold text-mute">내부 메모 (고객에게 노출되지 않음)</label>
+      <textarea id="d-note" rows={4} className="field" value={v} onChange={(e) => { setV(e.target.value); setMsg(""); }} placeholder="통화 내용, 견적 금액, 다음 연락일 등" maxLength={4000} />
+      <div className="mt-2 flex items-center gap-3">
+        <button disabled={busy || v === initial} className="min-h-10 border border-navy px-4 text-sm font-semibold hover:bg-navy hover:text-white disabled:opacity-40" onClick={async () => {
+          setBusy(true); const r = await api("/api/admin/inquiries", { method: "PATCH", json: { id, admin_note: v } }); setBusy(false);
+          if (r.ok) { onSaved(v); setMsg("저장되었습니다."); } else setMsg(r.data.message || "저장 실패 (schema.sql의 admin_note 컬럼 적용 여부 확인)");
+        }}>{busy ? "저장 중…" : "메모 저장"}</button>
+        {msg && <span role="status" className="text-sm text-accent">{msg}</span>}
+      </div>
     </div>
   );
 }

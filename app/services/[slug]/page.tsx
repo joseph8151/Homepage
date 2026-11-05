@@ -8,6 +8,8 @@ import { FinalCta } from "@/components/sections";
 import { JsonLd } from "@/components/JsonLd";
 import { meta } from "@/lib/seo";
 import { SITE_URL } from "@/content/site";
+import { faqs } from "@/content/faq";
+import { FaqSection } from "@/components/Faq";
 
 export const revalidate = 60;
 export const generateStaticParams = () => defaultServices.map((s) => ({ slug: s.slug }));
@@ -103,6 +105,7 @@ export default async function ServiceDetail({ params }: { params: Promise<{ slug
         </aside>
       </div>
 
+      <FaqSection items={faqs.filter((f) => f.tags.includes("service") || (s.slug === "seo" && f.tags.includes("seo")) || (s.slug === "ecommerce" && f.tags.includes("commerce"))).slice(0, 6)} title="이 서비스에 대한 질문" />
       <section className="bg-off py-20 md:py-24" aria-labelledby="rel">
         <div className="wrap">
           <h2 id="rel" className="t-label text-mute">Related services</h2>

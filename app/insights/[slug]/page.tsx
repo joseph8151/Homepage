@@ -25,6 +25,11 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
   const toc = blocks.filter((b) => b.type === "h2") as Extract<(typeof blocks)[number], { type: "h2" }>[];
   const related = [...posts.filter((p) => p.slug !== post.slug && p.category === post.category), ...posts.filter((p) => p.slug !== post.slug && p.category !== post.category)].slice(0, 3);
   const fmt = (d: string) => d.replaceAll("-", ".");
+  const chars = post.body.replace(/\s/g, "").length;
+  const minutes = Math.max(1, Math.round(chars / 500));
+  const pi = posts.findIndex((p) => p.slug === post.slug);
+  const newer = pi > 0 ? posts[pi - 1] : null;
+  const older = pi < posts.length - 1 ? posts[pi + 1] : null;
 
   return (
     <>
@@ -41,7 +46,7 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
             <h1 className="t-section mt-7" style={{ fontSize: "clamp(2rem,1.1rem+3.4vw,3.75rem)" }}>{post.title}</h1>
             <p className="t-body mt-6 max-w-2xl text-mute">{post.excerpt}</p>
             <p className="t-small mt-8 text-mute">
-              {post.author} · 발행 <time dateTime={post.publishedAt}>{fmt(post.publishedAt)}</time>
+              {post.author} · 읽는 시간 약 {minutes}분 · 발행 <time dateTime={post.publishedAt}>{fmt(post.publishedAt)}</time>
               {post.updatedAt !== post.publishedAt && <> · 수정 <time dateTime={post.updatedAt}>{fmt(post.updatedAt)}</time></>}
             </p>
           </div>
@@ -64,6 +69,12 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
             b.type === "h2" ? <h2 key={i} id={b.id} className="mb-5 mt-14 scroll-mt-28 text-[1.6rem] font-bold tracking-tight first:mt-0">{b.text}</h2>
             : b.type === "ul" ? <ul key={i} className="my-6 space-y-2.5">{b.items.map((it) => <li key={it} className="flex gap-3 text-[1.02rem] leading-[1.8]"><span aria-hidden className="text-accent">—</span><span>{it}</span></li>)}</ul>
             : <p key={i} className="my-5 text-[1.05rem] leading-[1.95] text-navy/85">{b.text}</p>,
+          )}
+          {(newer || older) && (
+            <nav aria-label="이전·다음 글" className="mt-16 grid gap-px border-y border-line sm:grid-cols-2">
+              {older ? <Link href={`/insights/${older.slug}`} className="group py-6 sm:pr-6"><p className="t-label text-mute">← 이전 글</p><p className="mt-2 font-semibold leading-snug"><span className="u-link">{older.title}</span></p></Link> : <span />}
+              {newer ? <Link href={`/insights/${newer.slug}`} className="group border-line py-6 sm:border-l sm:pl-6 sm:text-right"><p className="t-label text-mute">다음 글 →</p><p className="mt-2 font-semibold leading-snug"><span className="u-link">{newer.title}</span></p></Link> : <span />}
+            </nav>
           )}
           <aside className="on-dark mt-16 bg-navy p-8 text-white">
             <p className="t-label text-[#8db2ff]">Consultation</p>

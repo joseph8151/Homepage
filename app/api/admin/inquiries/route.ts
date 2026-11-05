@@ -23,12 +23,12 @@ export async function GET(req: NextRequest) {
   if (error) return NextResponse.json({ message: "조회에 실패했습니다." }, { status: 500 });
 
   if (sp.get("format") === "csv") {
-    const head = ["접수일시", "상태", "성함", "회사/브랜드", "이메일", "연락처", "관심 서비스", "예산", "일정", "프로젝트 내용", "기존 URL", "참고 URL", "첨부", "연락 선호", "동의버전"];
+    const head = ["접수일시", "상태", "성함", "회사/브랜드", "이메일", "연락처", "관심 서비스", "예산", "일정", "프로젝트 내용", "기존 URL", "참고 URL", "첨부", "연락 선호", "동의버전", "관리자 메모"];
     const rows = (data ?? []).map((r) =>
       [
         r.created_at, r.status, r.name, r.company, r.email, r.phone,
         (r.selected_services as string[]).map(svcName), r.budget, r.timeline, r.project_description,
-        r.current_website, r.reference_website, r.attachment_path ? "있음" : "", r.preferred_contact, r.consent_version,
+        r.current_website, r.reference_website, r.attachment_path ? "있음" : "", r.preferred_contact, r.consent_version, r.admin_note,
       ].map(csvCell).join(","),
     );
     const csv = "﻿" + [head.map(csvCell).join(","), ...rows].join("\r\n");
@@ -46,9 +46,11 @@ export async function PATCH(req: NextRequest) {
   if (!sameOrigin(req)) return NextResponse.json({ message: "허용되지 않은 요청입니다." }, { status: 403 });
   if (!(await getAdmin(req))) return unauthorized();
   const b = await req.json().catch(() => null);
-  if (!b?.id || !(inquiryStatuses as readonly string[]).includes(b.status))
-    return NextResponse.json({ message: "잘못된 요청입니다." }, { status: 400 });
-  const { error } = await adminClient().from("inquiries").update({ status: b.status }).eq("id", b.id);
+  const patch: Record<string, unknown> = {};
+  if (b?.status !== undefined) { if (!(inquiryStatuses as readonly string[]).includes(b.status)) return NextResponse.json({ message: "잘못된 상태 값입니다." }, { status: 400 }); patch.status = b.status; }
+  if (b?.admin_note !== undefined) { if (typeof b.admin_note !== "string" || b.admin_note.length > 4000) return NextResponse.json({ message: "메모는 4,000자 이내로 입력해 주세요." }, { status: 400 }); patch.admin_note = b.admin_note; }
+  if (!b?.id || !Object.keys(patch).length) return NextResponse.json({ message: "잘못된 요청입니다." }, { status: 400 });
+  const { error } = await adminClient().from("inquiries").update(patch).eq("id", b.id);
   if (error) return NextResponse.json({ message: "상태를 변경하지 못했습니다." }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

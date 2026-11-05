@@ -21,6 +21,7 @@ export const metadata: Metadata = {
     other: process.env.NAVER_SITE_VERIFICATION ? { "naver-site-verification": process.env.NAVER_SITE_VERIFICATION } : undefined,
   },
   formatDetection: { telephone: false },
+  alternates: { types: { "application/rss+xml": "/feed.xml" } },
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

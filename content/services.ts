@@ -363,3 +363,11 @@ export const featuredSlugs = ["corporate-website", "ecommerce", "landing-page", 
 export function sortServices(list: Service[]) {
   return [...list].sort((a, b) => a.no.localeCompare(b.no));
 }
+
+/** 서비스 분류(서비스 목록 필터용) */
+export const serviceGroups: { id: string; label: string; slugs: string[] }[] = [
+  { id: "website", label: "홈페이지 제작", slugs: ["corporate-website", "brand-website", "startup-website", "medical-website", "professional-website", "education-website", "multilingual-website", "website-redesign"] },
+  { id: "commerce", label: "쇼핑몰·랜딩·예약", slugs: ["ecommerce", "landing-page", "booking-website", "payment-integration"] },
+  { id: "dev", label: "맞춤 개발·시스템", slugs: ["custom-development", "crm-automation", "cms"] },
+  { id: "growth", label: "검색·성능·운영", slugs: ["seo", "performance", "accessibility-ux", "maintenance", "infrastructure"] },
+];

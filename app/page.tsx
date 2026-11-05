@@ -8,6 +8,8 @@ import { Arrow, Button, Label, contactHref } from "@/components/ui";
 import { Reveal } from "@/components/Reveal";
 import { FinalCta, PricingTable, ProcessList, ProjectMeta, ProjectVisual } from "@/components/sections";
 import { meta } from "@/lib/seo";
+import { faqs } from "@/content/faq";
+import { FaqSection } from "@/components/Faq";
 
 export const revalidate = 60;
 export const metadata = meta({
@@ -205,6 +207,10 @@ export default async function Home() {
             <p className="t-body text-mute md:col-span-4 md:self-end">패키지는 출발점입니다. 실제 제작 범위와 견적은 요구사항을 확인한 뒤 확정합니다.</p>
           </div>
           <div className="mt-14 md:mt-20"><PricingTable packages={packages} notice={packageNotice} /></div>
+          <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-y border-line py-6">
+            <p className="max-w-xl text-[1.05rem] font-medium">어떤 패키지가 맞는지 모르겠다면, 네 가지 질문으로 프로젝트 범위를 먼저 가늠해 보세요.</p>
+            <Button href="/estimate" variant="outline" className="text-navy hover:bg-navy hover:!text-white">프로젝트 범위 진단</Button>
+          </div>
         </div>
       </section>
 
@@ -251,6 +257,7 @@ export default async function Home() {
         </section>
       )}
 
+      <FaqSection items={faqs.filter((f) => f.tags.includes("home"))} bg="bg-off" />
       <FinalCta />
     </>
   );

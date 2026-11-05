@@ -8,6 +8,8 @@
 2. **Authentication → Users → Add user**로 관리자 계정(이메일+비밀번호) 생성. (회원가입은 Authentication 설정에서 비활성화 권장)
 3. **Project Settings → API**에서 URL, anon key, service_role key 확인.
 
+> 이미 schema.sql을 적용한 DB라면 새 버전(내부 메모 `admin_note` 컬럼)을 위해 SQL Editor에서 schema.sql을 다시 실행해도 안전합니다(멱등).
+
 ## 2. 환경변수 (Vercel → Settings → Environment Variables)
 | 이름 | 설명 |
 |---|---|
@@ -15,6 +17,8 @@
 | `NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_ANON_KEY` | 공개 가능 값 |
 | `SUPABASE_SERVICE_ROLE_KEY` | **서버 전용 비밀키.** `NEXT_PUBLIC_` 금지, 저장소 커밋 금지 |
 | `ADMIN_EMAILS` | 관리자 허용 이메일(쉼표 구분). Supabase에 계정이 있어도 여기에 없으면 접근 불가 |
+| `RESEND_API_KEY`, `NOTIFY_EMAIL_TO`, `NOTIFY_EMAIL_FROM` | (선택) 신규 상담 이메일 알림(Resend). 세 값이 모두 있어야 동작 |
+| `NOTIFY_WEBHOOK_URL` | (선택) Slack/Discord 등 https 웹훅 알림 |
 | `GOOGLE_SITE_VERIFICATION`, `NAVER_SITE_VERIFICATION` | 검색엔진 소유 확인 메타 태그 값 |
 
 ## 3. Vercel 배포
@@ -27,7 +31,7 @@ GitHub 저장소를 Vercel에 Import → Framework: Next.js(자동) → 환경�
 
 ## 5. 검색엔진 등록
 - **Google Search Console**: 속성 추가 → HTML 태그 방식의 content 값을 `GOOGLE_SITE_VERIFICATION`에 입력 → 재배포 → 확인 → 사이트맵 `/sitemap.xml` 제출.
-- **네이버 서치어드바이저**: 사이트 등록 → HTML 태그의 content 값을 `NAVER_SITE_VERIFICATION`에 입력 → 재배포 → 확인 → 사이트맵·RSS 제출.
+- **네이버 서치어드바이저**: 사이트 등록 → HTML 태그의 content 값을 `NAVER_SITE_VERIFICATION`에 입력 → 재배포 → 확인 → 사이트맵(`/sitemap.xml`)·RSS(`/feed.xml`) 제출.
 - 검색 순위는 보장되지 않습니다. 문구에도 그런 표현을 쓰지 마세요.
 
 ## 6. 보안 설계 요약
@@ -45,6 +49,6 @@ GitHub 저장소를 Vercel에 Import → Framework: Next.js(자동) → 환경�
 - 관리자 상세 패널의 “영구 삭제”가 DB 행과 첨부파일을 함께 삭제합니다. 일괄 삭제 SQL 예시는 `schema.sql` 하단 주석 참고.
 
 ## 8. 아직 연결되지 않은 것 (필요 시 추가)
-- 신규 상담 **이메일/메신저 알림**: 현재는 관리자 화면에서 확인. Resend 등을 `app/api/inquiries/route.ts` 저장 직후에 연결하세요.
+- 신규 상담 알림은 **환경변수를 설정한 경우에만** 동작합니다(`lib/notify.ts`). 미설정 시 관리자 화면에서만 확인됩니다. 알림에는 연락처·본문을 싣지 않고 관리자 링크만 보냅니다.
 - 분석 도구(GA4·네이버 애널리틱스), 실제 PG 결제는 포함하지 않았습니다.
 - Pretendard 폰트는 jsDelivr CDN에서 로드합니다(자체 호스팅 시 `app/layout.tsx` 수정).

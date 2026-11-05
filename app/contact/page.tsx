@@ -3,6 +3,8 @@ import { getPackages, getServices, getSite } from "@/lib/content";
 import { ContactForm } from "@/components/ContactForm";
 import { Label } from "@/components/ui";
 import { meta } from "@/lib/seo";
+import { faqs } from "@/content/faq";
+import { FaqSection } from "@/components/Faq";
 
 export const revalidate = 60;
 export const metadata = meta({
@@ -54,6 +56,7 @@ export default async function Contact() {
           </aside>
         </div>
       </section>
+      <FaqSection items={faqs.filter((f) => f.tags.includes("contact"))} bg="bg-off" />
     </>
   );
 }
