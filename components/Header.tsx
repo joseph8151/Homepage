@@ -9,11 +9,16 @@ export function Header({ wordmark }: { wordmark: string }) {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [progress, setProgress] = useState(0);
   const isHome = pathname === "/";
   const dark = isHome && !scrolled && !open;
 
   useEffect(() => {
-    const on = () => setScrolled(window.scrollY > 24);
+    const on = () => {
+      setScrolled(window.scrollY > 24);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0);
+    };
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
@@ -38,6 +43,7 @@ export function Header({ wordmark }: { wordmark: string }) {
         } ${open ? "bg-white" : ""}`}
         style={{ backgroundColor: dark ? "transparent" : open ? "#fff" : "rgba(255,255,255,.93)" }}
       >
+        <span aria-hidden className="absolute bottom-[-1px] left-0 h-px origin-left bg-accent" style={{ width: "100%", transform: `scaleX(${progress})`, opacity: dark ? 0 : 1 }} />
         <div className="wrap flex h-[72px] items-center justify-between gap-6">
           <Link href="/" aria-label="홈으로" className="shrink-0"><Logo wordmark={wordmark} /></Link>
 

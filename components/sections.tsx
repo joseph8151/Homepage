@@ -47,7 +47,7 @@ export function ProcessList({ detailed = false }: { detailed?: boolean }) {
             <div className="flex items-baseline gap-5 md:col-span-5">
               <span className="t-label text-[#8db2ff]">{s.no}</span>
               <div>
-                <h3 className="t-sub" style={{ fontSize: "clamp(1.5rem,1rem+1.3vw,2rem)" }}>{s.en}</h3>
+                <h3 className="t-sub font-medium" style={{ fontSize: "clamp(1.5rem,1rem+1.3vw,2rem)", letterSpacing: "-0.02em" }}>{s.en}</h3>
                 <p className="mt-1 text-[0.95rem] text-white/55">{s.ko}</p>
               </div>
             </div>
@@ -81,7 +81,7 @@ export function PricingTable({ packages, notice }: { packages: Pkg[]; notice: st
           <article key={p.id} className={`flex flex-col border-b border-r border-line p-7 md:p-9 ${p.highlight ? "on-dark bg-navy text-white" : "bg-white"}`}>
             <p className={`t-label ${p.highlight ? "text-[#8db2ff]" : "text-accent"}`}>{p.name}</p>
             <p className={`mt-4 min-h-[3.2rem] text-[0.95rem] ${p.highlight ? "text-white/70" : "text-mute"}`}>{p.target}</p>
-            <p className="mt-6 text-[2rem] font-bold tracking-tight">{p.priceLabel}</p>
+            <p className="mt-6 text-[1.9rem] font-semibold tracking-[-0.03em]">{p.priceLabel}</p>
             <ul className={`mt-8 flex-1 space-y-3 border-t pt-7 text-[0.95rem] ${p.highlight ? "border-white/15" : "border-line"}`}>
               {p.features.map((f) => (
                 <li key={f} className="flex gap-3"><span aria-hidden className={p.highlight ? "text-[#8db2ff]" : "text-accent"}>—</span><span>{f}</span></li>

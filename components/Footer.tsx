@@ -46,7 +46,8 @@ export function Footer({ site, services }: { site: SiteInfo; services: Service[]
           </nav>
         </div>
 
-        <div className="rule-dark mt-16 border-t pt-8 text-[0.82rem] leading-relaxed text-white/45">
+        <p aria-hidden className="mt-20 select-none overflow-hidden whitespace-nowrap font-bold leading-[0.8] tracking-[-0.04em] text-white/[0.06]" style={{ fontSize: "min(12.5vw, 196px)", overflowWrap: "normal", wordBreak: "normal" }}>{site.brandWordmark}</p>
+        <div className="rule-dark mt-10 border-t pt-8 text-[0.82rem] leading-relaxed text-white/45">
           {biz.length > 0 && <p className="mb-3">{biz.join(" · ")}</p>}
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <p>© {new Date().getFullYear()} {site.companyName || site.brandWordmark}. All rights reserved.</p>

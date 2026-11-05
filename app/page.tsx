@@ -36,6 +36,7 @@ export default async function Home() {
     <>
       {/* 01 HERO */}
       <section className="on-dark relative overflow-hidden bg-deep text-white" aria-labelledby="hero-title">
+        <div aria-hidden className="hero-lift absolute inset-0" />
         <div aria-hidden className="grid-lines absolute inset-0" />
         <div className="wrap relative grid gap-16 pb-36 pt-36 md:pt-44 lg:grid-cols-12 lg:gap-10 lg:pb-44">
           <div className="lg:col-span-7">
@@ -54,8 +55,8 @@ export default async function Home() {
               <Button href="/portfolio" size="lg" variant="outline">제작 사례 살펴보기</Button>
             </div>
           </div>
-          <div className="lg:col-span-5 lg:pt-10">
-            <div className="mx-auto max-w-[640px] pl-4 pt-9 sm:pl-8 lg:max-w-none">
+          <div className="lg:col-span-5 lg:pt-8">
+            <div className="mx-auto max-w-[640px] pl-4 pt-9 sm:pl-8 lg:-ml-10 lg:w-[calc(100%+2.5rem)] lg:max-w-none lg:pl-0">
               <HeroDemo />
             </div>
           </div>
@@ -73,7 +74,7 @@ export default async function Home() {
       </section>
 
       {/* 02 INTRODUCTION */}
-      <section id="intro" className="bg-white py-24 md:py-40" aria-labelledby="intro-title">
+      <section id="intro" className="bg-white py-20 md:py-32" aria-labelledby="intro-title">
         <div className="wrap">
           <div className="grid gap-12 lg:grid-cols-12">
             <div className="lg:col-span-7">
@@ -102,7 +103,7 @@ export default async function Home() {
       </section>
 
       {/* 03 SERVICES */}
-      <section className="bg-off py-24 md:py-40" aria-labelledby="svc-title">
+      <section className="bg-off py-20 md:py-32" aria-labelledby="svc-title">
         <div className="wrap">
           <div className="grid gap-8 md:grid-cols-12">
             <div className="md:col-span-8">
@@ -113,10 +114,10 @@ export default async function Home() {
           </div>
 
           <ol className="mt-16 border-t border-navy md:mt-24">
-            {featured.map((s) => (
+            {featured.map((s, i) => (
               <li key={s.slug} className="border-b border-line">
-                <Link href={`/services/${s.slug}`} className="group grid gap-x-10 gap-y-5 py-9 transition-colors duration-300 md:grid-cols-12 md:py-12">
-                  <span className="t-label pt-3 text-accent md:col-span-1">{s.no}</span>
+                <Link href={`/services/${s.slug}`} className="row-hover group grid gap-x-10 gap-y-5 py-9 md:grid-cols-12 md:py-12">
+                  <span className="t-label pt-3 text-accent md:col-span-1">0{i + 1}</span>
                   <div className="md:col-span-5">
                     <h3 className="t-sub transition-transform duration-500 group-hover:translate-x-2" style={{ fontSize: "clamp(1.85rem,1.1rem+2.4vw,3.25rem)" }}>{s.name}</h3>
                     <p className="t-label mt-4 text-mute">{s.en}</p>
@@ -132,7 +133,7 @@ export default async function Home() {
           </ol>
 
           <div className="mt-20 grid gap-10 md:grid-cols-12">
-            <p className="t-label text-mute md:col-span-3">More services · {rest.length}</p>
+            <p className="t-label text-mute md:col-span-3">More services — {rest.length}</p>
             <ul className="grid gap-x-12 md:col-span-9 md:grid-cols-2">
               {rest.map((s) => (
                 <li key={s.slug} className="border-t border-line">
@@ -148,7 +149,7 @@ export default async function Home() {
       </section>
 
       {/* 04 PORTFOLIO */}
-      <section className="bg-white py-24 md:py-40" aria-labelledby="pf-title">
+      <section className="bg-white py-20 md:py-32" aria-labelledby="pf-title">
         <div className="wrap">
           <div className="grid gap-8 md:grid-cols-12">
             <div className="md:col-span-8">
@@ -179,7 +180,7 @@ export default async function Home() {
       </section>
 
       {/* 05 PROCESS */}
-      <section className="on-dark bg-navy py-24 text-white md:py-40" aria-labelledby="pr-title">
+      <section className="on-dark bg-navy py-20 text-white md:py-32" aria-labelledby="pr-title">
         <div className="wrap grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-4">
             <div className="lg:sticky lg:top-32">
@@ -194,7 +195,7 @@ export default async function Home() {
       </section>
 
       {/* 06 PRICING */}
-      <section className="bg-white py-24 md:py-40" aria-labelledby="pk-title" id="pricing">
+      <section className="bg-white py-20 md:py-32" aria-labelledby="pk-title" id="pricing">
         <div className="wrap">
           <div className="grid gap-8 md:grid-cols-12">
             <div className="md:col-span-8">
@@ -208,7 +209,7 @@ export default async function Home() {
       </section>
 
       {/* 07 WHY */}
-      <section className="bg-off py-24 md:py-40" aria-labelledby="why-title">
+      <section className="bg-off py-20 md:py-32" aria-labelledby="why-title">
         <div className="wrap grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Label className="text-accent">Why choose us</Label>
@@ -229,7 +230,7 @@ export default async function Home() {
 
       {/* 08 INSIGHTS */}
       {posts.length > 0 && (
-        <section className="bg-white py-24 md:py-40" aria-labelledby="in-title">
+        <section className="bg-white py-20 md:py-32" aria-labelledby="in-title">
           <div className="wrap">
             <div className="flex flex-wrap items-end justify-between gap-6">
               <div><Label className="text-accent">Insights</Label><h2 id="in-title" className="t-section mt-6">제작 전에 읽어두면<br />좋은 이야기.</h2></div>

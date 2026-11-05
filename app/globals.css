@@ -24,12 +24,14 @@ body {
   overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;
 }
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
 ::selection { background: var(--color-accent); color: #fff; }
 
 /* 타이포그래피 스케일 (데스크톱 64–84 / 모바일 36–46) */
-.t-hero { font-size: clamp(2.5rem, 1.2rem + 5.6vw, 5.25rem); line-height: 1.08; letter-spacing: -0.04em; font-weight: 700; }
-.t-section { font-size: clamp(2.125rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.16; letter-spacing: -0.035em; font-weight: 700; }
-.t-sub { font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem); line-height: 1.25; letter-spacing: -0.03em; font-weight: 650; }
+.t-hero { font-size: clamp(2.5rem, 1.2rem + 5.6vw, 5.25rem); line-height: 1.1; letter-spacing: -0.045em; font-weight: 650; }
+.t-section { font-size: clamp(2.125rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.18; letter-spacing: -0.04em; font-weight: 640; }
+.t-sub { font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem); line-height: 1.25; letter-spacing: -0.035em; font-weight: 600; }
 .t-label { font-family: var(--font-sans); font-size: 0.75rem; line-height: 1; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; }
 .t-body { font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem); line-height: 1.8; }
 .t-small { font-size: 0.9rem; line-height: 1.7; }
@@ -62,6 +64,13 @@ body {
 .u-link:hover, .group:hover .u-link { background-size: 100% 1px; }
 
 :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 2px; }
+/* 히어로: 로열 네이비의 아주 옅은 빛 번짐(채도 낮음, 그라디언트 장식 아님) */
+.hero-lift { background: radial-gradient(60% 55% at 78% 38%, rgba(18,55,99,.55), transparent 70%); }
+
+/* 서비스 행 호버 */
+.row-hover { transition: background-color .4s ease, padding .4s ease; }
+@media (min-width: 768px) { .row-hover:hover { background-color: #fff; padding-inline: 1.5rem; } }
+
 .on-dark :focus-visible { outline-color: #8db2ff; }
 
 @keyframes scroll-cue { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
