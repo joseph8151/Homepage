@@ -3,7 +3,6 @@ import { Legal } from "@/components/Legal";
 import { PRIVACY_CONSENT_VERSION } from "@/content/site";
 import { meta } from "@/lib/seo";
 
-export const revalidate = 60;
 export const metadata = meta({ title: "개인정보처리방침", description: "상담 신청 시 수집하는 개인정보의 항목, 이용 목적, 보유 기간 및 이용자의 권리를 안내합니다.", path: "/privacy" });
 
 export default async function Privacy() {

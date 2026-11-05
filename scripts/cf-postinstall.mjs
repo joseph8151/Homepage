@@ -4,6 +4,7 @@
 import { spawnSync } from "node:child_process";
 
 if (process.env.WORKERS_CI !== "1" && process.env.CF_FORCE_BUILD !== "1") process.exit(0);
-console.log("[cf-postinstall] Workers build detected — running OpenNext build");
+console.log("[cf-postinstall] Workers build detected — optimizing images, then running OpenNext build");
+spawnSync("node", ["scripts/optimize-images.mjs"], { stdio: "inherit" });
 const r = spawnSync("npx", ["opennextjs-cloudflare", "build"], { stdio: "inherit", shell: process.platform === "win32" });
 process.exit(r.status ?? 1);

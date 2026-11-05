@@ -10,7 +10,6 @@ import { JsonLd } from "@/components/JsonLd";
 import { meta } from "@/lib/seo";
 import { SITE_URL } from "@/content/site";
 
-export const revalidate = 60;
 export const generateStaticParams = () => defaultPosts.map((p) => ({ slug: p.slug }));
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const p = await getPost((await params).slug);

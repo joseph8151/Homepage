@@ -3,8 +3,10 @@ import { whyPoints } from "@/content/process";
 import { Label, PageHead } from "@/components/ui";
 import { FinalCta } from "@/components/sections";
 import { meta } from "@/lib/seo";
+import { photo } from "@/lib/photos";
+import { photos } from "@/content/photos";
+import { PhotoFrame } from "@/components/Photo";
 
-export const revalidate = 60;
 export const metadata = meta({
   title: "회사소개 | 비즈니스의 성과를 설계하는 홈페이지 제작사",
   description: "브랜드 전략부터 디자인, 개발, 검색 최적화, 운영까지. 제작 이후까지 책임지는 홈페이지 제작 전문기업을 소개합니다.",
@@ -13,10 +15,20 @@ export const metadata = meta({
 
 export default async function About() {
   const site = await getSite();
+  const pLaptop = photo(photos.laptop);
+  const pCoffee = photo(photos.coffee);
   const info = [["상호", site.companyName], ["대표", site.representative], ["사업자등록번호", site.businessNumber], ["주소", site.address], ["이메일", site.email], ["연락처", site.phone], ["운영시간", site.hours]].filter(([, v]) => v);
   return (
     <>
       <PageHead label="About" title={<>보기 좋은 디자인에서<br />끝나지 않습니다.</>} lead="좋은 홈페이지는 보기 좋은 디자인에서 끝나지 않습니다. 비즈니스의 성과를 설계합니다." />
+      {(pLaptop || pCoffee) && (
+        <section className="bg-white pt-16 md:pt-24" aria-hidden>
+          <div className="wrap grid gap-6 md:grid-cols-12 md:items-end">
+            {pLaptop && <div className="md:col-span-8"><PhotoFrame photo={pLaptop} ratio="3 / 2" priority sizes="(min-width: 768px) 66vw, 100vw" /></div>}
+            {pCoffee && <div className="md:col-span-4 md:mb-[-3rem]"><PhotoFrame photo={pCoffee} ratio="4 / 5" sizes="(min-width: 768px) 33vw, 100vw" /></div>}
+          </div>
+        </section>
+      )}
       <section className="bg-white py-20 md:py-32">
         <div className="wrap grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5"><Label className="text-accent">Our approach</Label><h2 className="t-section mt-6">템플릿 업체가 아닌,<br />온라인 비즈니스의<br />파트너.</h2></div>

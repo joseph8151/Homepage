@@ -9,16 +9,25 @@ import { Reveal } from "./Reveal";
 /** 프로젝트 이미지: imageUrl 이 있으면 실제 이미지, 없으면 콘셉트 화면. ratio 로 편집형 크롭을 조절합니다. */
 export function ProjectVisual({ p, ratio = "16 / 10", priority = false }: { p: Project; ratio?: string; priority?: boolean }) {
   const alt = `${p.isConcept ? "Concept Project — " : ""}${p.title}, ${p.industry} ${p.type} 화면`;
+  const [rw, rh] = ratio.split("/").map((x) => parseFloat(x));
+  const tall = rw / rh < 1.5;
   return (
+    <div className="crop text-navy/60">
     <div className="zoom-wrap relative w-full bg-line" style={{ aspectRatio: ratio }}>
       <div className="absolute inset-0">
         {p.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={p.imageUrl} alt={alt} className="h-full w-full object-cover" loading={priority ? "eager" : "lazy"} />
         ) : (
-          <ConceptScreen kind={p.visual} alt={alt} />
+          // 세로로 긴 프레임: 높이에 맞춰 키우고 좌우를 크롭(에디토리얼 크롭), 가로형: 폭에 맞춤
+          tall ? (
+            <div className="absolute left-0 top-0 h-full" style={{ aspectRatio: "16 / 10" }}><ConceptScreen kind={p.visual} alt={alt} /></div>
+          ) : (
+            <ConceptScreen kind={p.visual} alt={alt} />
+          )
         )}
       </div>
+    </div>
     </div>
   );
 }
@@ -44,8 +53,8 @@ export function ProcessList({ detailed = false }: { detailed?: boolean }) {
       {processSteps.map((s) => (
         <li key={s.no}>
           <Reveal className="grid gap-x-10 gap-y-4 py-8 md:grid-cols-12 md:py-10">
-            <div className="flex items-baseline gap-5 md:col-span-5">
-              <span className="t-label text-[#8db2ff]">{s.no}</span>
+            <div className="group flex items-center gap-6 md:col-span-5">
+              <span className="num-outline w-[4.2rem] shrink-0 text-[3.4rem] text-white/45 md:w-[5.2rem] md:text-[4.2rem]">{s.no}</span>
               <div>
                 <h3 className="t-sub font-medium" style={{ fontSize: "clamp(1.5rem,1rem+1.3vw,2rem)", letterSpacing: "-0.02em" }}>{s.en}</h3>
                 <p className="mt-1 text-[0.95rem] text-white/55">{s.ko}</p>
@@ -78,7 +87,7 @@ export function PricingTable({ packages, notice }: { packages: Pkg[]; notice: st
     <div>
       <div className="grid border-line md:grid-cols-2 xl:grid-cols-4" style={{ borderTopWidth: 1, borderLeftWidth: 1 }}>
         {packages.map((p) => (
-          <article key={p.id} className={`flex flex-col border-b border-r border-line p-7 md:p-9 ${p.highlight ? "on-dark bg-navy text-white" : "bg-white"}`}>
+          <article key={p.id} className={`flex flex-col border-b border-r border-line p-7 md:p-9 ${p.highlight ? "on-dark bg-navy text-white shadow-[inset_0_3px_0_0_#2864d8]" : "bg-white"}`}>
             <p className={`t-label ${p.highlight ? "text-[#8db2ff]" : "text-accent"}`}>{p.name}</p>
             <p className={`mt-4 min-h-[3.2rem] text-[0.95rem] ${p.highlight ? "text-white/70" : "text-mute"}`}>{p.target}</p>
             <p className="mt-6 text-[1.9rem] font-semibold tracking-[-0.03em]">{p.priceLabel}</p>
@@ -107,6 +116,8 @@ export function FinalCta({ service, title = "좋은 프로젝트는\n좋은 대�
   return (
     <section className="on-dark relative overflow-hidden bg-deep py-24 text-white md:py-36" aria-labelledby="cta-title">
       <div aria-hidden className="grid-lines absolute inset-0 opacity-60" />
+      <span aria-hidden className="outline-word bottom-[-2.5vw] left-[-0.5vw]" style={{ fontSize: "clamp(5rem, 19vw, 20rem)" }}>START</span>
+      <span aria-hidden className="plus right-[6vw] top-16 hidden md:block" />
       <div className="wrap relative grid gap-12 md:grid-cols-12 md:items-end">
         <div className="md:col-span-8">
           <Label className="text-[#8db2ff]">Start a project</Label>
@@ -114,7 +125,7 @@ export function FinalCta({ service, title = "좋은 프로젝트는\n좋은 대�
         </div>
         <div className="md:col-span-4">
           <p className="t-body text-white/70">{extra ?? "새로운 홈페이지 제작부터 기존 웹사이트의 개선까지, 프로젝트의 목적과 고민을 공유해 주십시오."}</p>
-          <Button href={contactHref(service ? { service } : {})} size="lg" className="mt-8">{button}</Button>
+          <Button href={contactHref(service ? { service } : {})} size="lg" variant="light" className="mt-8">{button}</Button>
         </div>
       </div>
     </section>

@@ -2,7 +2,6 @@ import { getPosts, getSite } from "@/lib/content";
 import { SITE_URL } from "@/content/site";
 
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-export const revalidate = 3600;
 
 /** RSS 2.0 — 네이버 서치어드바이저 RSS 제출용 */
 export async function GET() {

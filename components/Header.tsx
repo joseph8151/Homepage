@@ -54,7 +54,7 @@ export function Header({ wordmark }: { wordmark: string }) {
                   <Link href={n.href} aria-current={active(n.href) ? "page" : undefined}
                     className={`t-label u-link py-2 ${active(n.href) ? "opacity-100" : "opacity-70 hover:opacity-100"}`}
                     style={{ letterSpacing: "0.14em" }}>
-                    {n.label}
+                    {n.label}{active(n.href) && <span aria-hidden className="ml-2 inline-block h-[5px] w-[5px] -translate-y-px bg-accent" />}
                   </Link>
                 </li>
               ))}
@@ -62,7 +62,7 @@ export function Header({ wordmark }: { wordmark: string }) {
           </nav>
 
           <div className="flex items-center gap-3">
-            <Link href="/contact" className={`hidden min-h-11 items-center px-5 text-[0.9rem] font-semibold transition-colors duration-300 sm:inline-flex ${dark ? "bg-white text-navy hover:bg-off" : "bg-navy text-white hover:bg-royal"}`}>
+            <Link href="/contact" className={`chamfer hidden min-h-11 items-center px-5 text-[0.9rem] font-semibold transition-colors duration-300 sm:inline-flex ${dark ? "bg-white text-navy hover:bg-off" : "bg-navy text-white hover:bg-royal"}`}>
               프로젝트 상담하기
             </Link>
             <button type="button" className="inline-flex h-11 w-11 items-center justify-center lg:hidden" aria-expanded={open} aria-controls="mobile-menu" aria-label={open ? "메뉴 닫기" : "메뉴 열기"} onClick={() => setOpen((v) => !v)}>

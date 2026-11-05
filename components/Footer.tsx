@@ -49,7 +49,7 @@ export function Footer({ site, services }: { site: SiteInfo; services: Service[]
           </nav>
         </div>
 
-        <p aria-hidden className="mt-20 select-none overflow-hidden whitespace-nowrap font-bold leading-[0.8] tracking-[-0.04em] text-white/[0.06]" style={{ fontSize: "min(12.5vw, 196px)", overflowWrap: "normal", wordBreak: "normal" }}>{site.brandWordmark}</p>
+        <p aria-hidden className="mt-20 select-none overflow-hidden whitespace-nowrap font-extrabold leading-[0.8] tracking-[-0.05em]" style={{ fontSize: "min(13.5vw, 210px)", overflowWrap: "normal", wordBreak: "normal", color: "transparent", WebkitTextStroke: "1px rgba(255,255,255,.16)" }}>{site.brandWordmark}</p>
         <div className="rule-dark mt-10 border-t pt-8 text-[0.82rem] leading-relaxed text-white/45">
           {biz.length > 0 && <p className="mb-3">{biz.join(" · ")}</p>}
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">

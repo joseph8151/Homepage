@@ -6,7 +6,6 @@ import { meta } from "@/lib/seo";
 import { faqs } from "@/content/faq";
 import { FaqSection } from "@/components/Faq";
 
-export const revalidate = 60;
 export const metadata = meta({
   title: "홈페이지 제작 견적 문의 | 프로젝트 상담 신청",
   description: "홈페이지 제작 견적과 상담을 신청하세요. 프로젝트 목적과 필요 기능을 알려주시면 제작 방향과 견적을 안내해 드립니다.",

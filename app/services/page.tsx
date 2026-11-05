@@ -10,7 +10,6 @@ import { meta } from "@/lib/seo";
 import { faqs } from "@/content/faq";
 import { FaqSection } from "@/components/Faq";
 
-export const revalidate = 60;
 export const metadata = meta({
   title: "홈페이지 제작 서비스 20종 | 비용·기간·제작 범위",
   description: "기업 홈페이지·쇼핑몰·랜딩페이지·리뉴얼·SEO·유지보수 등 20개 웹 서비스의 제작 범위, 일정, 가격 정책(별도 견적)과 패키지 비교를 확인하세요.",

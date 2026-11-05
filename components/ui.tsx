@@ -8,12 +8,12 @@ export const Arrow = ({ className = "" }: { className?: string }) => (
 );
 
 type BtnProps = { href: string; children: ReactNode; variant?: "solid" | "outline" | "light" | "ghost"; className?: string; size?: "md" | "lg" };
-const base = "group inline-flex items-center justify-center gap-3 font-semibold tracking-tight transition-colors duration-300 min-h-12 whitespace-nowrap";
+const base = "btn group inline-flex items-center justify-center gap-3 font-semibold tracking-tight min-h-12 whitespace-nowrap";
 const variants = {
-  solid: "bg-accent text-white hover:bg-[#1f55c0]",
-  outline: "border border-current hover:bg-white/10",
-  light: "bg-white text-navy hover:bg-off",
-  ghost: "text-current hover:opacity-70",
+  solid: "btn-solid chamfer bg-accent text-white",
+  outline: "border border-current",
+  light: "btn-light chamfer bg-white text-navy",
+  ghost: "btn-ghost text-current hover:opacity-70",
 };
 export function Button({ href, children, variant = "solid", className = "", size = "md" }: BtnProps) {
   return (
@@ -26,15 +26,17 @@ export function Button({ href, children, variant = "solid", className = "", size
 
 export const Label = ({ children, className = "" }: { children: ReactNode; className?: string }) => (
   <p className={`t-label flex items-center gap-3 ${className}`}>
-    <span aria-hidden className="inline-block h-px w-8 bg-current opacity-60" />
+    <span aria-hidden className="ticks" />
     {children}
   </p>
 );
 
 export function PageHead({ label, title, lead, children }: { label: string; title: ReactNode; lead?: ReactNode; children?: ReactNode }) {
   return (
-    <header className="bg-off pt-36 pb-16 md:pt-48 md:pb-24">
-      <div className="wrap grid gap-10 md:grid-cols-12">
+    <header className="relative overflow-hidden bg-off pt-36 pb-16 md:pt-48 md:pb-24">
+      <span aria-hidden className="outline-word -bottom-[1.4vw] right-[-1vw] uppercase" style={{ fontSize: "clamp(4rem, 14vw, 15rem)" }}>{label}</span>
+      <span aria-hidden className="plus left-[4vw] top-28 hidden md:block" />
+      <div className="wrap relative grid gap-10 md:grid-cols-12">
         <div className="md:col-span-8">
           <Label className="text-accent">{label}</Label>
           <h1 className="t-hero mt-6" style={{ fontSize: "clamp(2.25rem, 1.2rem + 4.4vw, 4.5rem)" }}>{title}</h1>

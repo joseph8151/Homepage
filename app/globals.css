@@ -29,8 +29,8 @@ p { text-wrap: pretty; }
 ::selection { background: var(--color-accent); color: #fff; }
 
 /* 타이포그래피 스케일 (데스크톱 64–84 / 모바일 36–46) */
-.t-hero { font-size: clamp(2.5rem, 1.2rem + 5.6vw, 5.25rem); line-height: 1.1; letter-spacing: -0.045em; font-weight: 650; }
-.t-section { font-size: clamp(2.125rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.18; letter-spacing: -0.04em; font-weight: 640; }
+.t-hero { font-size: clamp(2.5rem, 1.2rem + 5.6vw, 5.25rem); line-height: 1.06; letter-spacing: -0.05em; font-weight: 780; }
+.t-section { font-size: clamp(2.125rem, 1.2rem + 3.2vw, 3.5rem); line-height: 1.14; letter-spacing: -0.045em; font-weight: 720; }
 .t-sub { font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem); line-height: 1.25; letter-spacing: -0.035em; font-weight: 600; }
 .t-label { font-family: var(--font-sans); font-size: 0.75rem; line-height: 1; letter-spacing: 0.18em; font-weight: 600; text-transform: uppercase; }
 .t-body { font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem); line-height: 1.8; }
@@ -89,3 +89,52 @@ p { text-wrap: pretty; }
 .field:focus { outline: none; border-color: var(--color-accent); box-shadow: 0 0 0 3px rgba(40,100,216,.15); }
 .field[aria-invalid="true"] { border-color: #c0392b; }
 .field::placeholder { color: #94a3b6; }
+
+/* ───────── EDGE TOOLKIT ───────── */
+/* 모서리를 비스듬히 자른 형태 — 채워진 요소에만 사용 */
+.chamfer { clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%); }
+.chamfer-lg { clip-path: polygon(0 0, calc(100% - 28px) 0, 100% 28px, 100% 100%, 0 100%); }
+.chamfer-bl { clip-path: polygon(0 0, 100% 0, 100% 100%, 18px 100%, 0 calc(100% - 18px)); }
+
+/* 버튼: 좌→우 와이프 */
+.btn { --wipe: var(--color-navy); --hover: #fff; position: relative; overflow: hidden; isolation: isolate; transition: color .35s ease; }
+.on-dark .btn { --wipe: #fff; --hover: var(--color-navy); }
+.btn::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--wipe); transform: translateX(-102%); transition: transform .5s cubic-bezier(.7, 0, .2, 1); }
+.btn:hover { color: var(--hover); }
+.btn:hover::before { transform: none; }
+.btn-light { --wipe: var(--color-accent) !important; --hover: #fff !important; }
+.btn-solid { --wipe: var(--color-navy); --hover: #fff; }
+.on-dark .btn-solid { --wipe: #fff; --hover: var(--color-navy); }
+.btn-ghost::before { display: none; }
+
+/* 아웃라인 대형 숫자 */
+.num-outline { color: currentColor; -webkit-text-fill-color: transparent; -webkit-text-stroke: 1px currentColor; font-weight: 700; letter-spacing: -0.05em; line-height: .9; font-variant-numeric: tabular-nums; transition: color .4s ease, -webkit-text-fill-color .4s ease; }
+.group:hover .num-outline { color: var(--color-accent); -webkit-text-fill-color: var(--color-accent); }
+
+/* 눈금자 라벨 */
+.ticks { display: inline-block; width: 44px; height: 8px; flex: none; opacity: .75;
+  background: linear-gradient(currentColor, currentColor) 0 7px / 100% 1px no-repeat, repeating-linear-gradient(90deg, currentColor 0 1px, transparent 1px 7px) 0 0 / 100% 7px no-repeat; }
+
+/* 크롭 마크(인쇄 교정 부호 느낌) */
+.crop { position: relative; --c: currentColor; }
+.crop::after { content: ""; position: absolute; inset: -9px; pointer-events: none; opacity: .5; z-index: 2;
+  background:
+    linear-gradient(var(--c), var(--c)) 0 0 / 15px 1px no-repeat, linear-gradient(var(--c), var(--c)) 0 0 / 1px 15px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 0 / 15px 1px no-repeat, linear-gradient(var(--c), var(--c)) 100% 0 / 1px 15px no-repeat,
+    linear-gradient(var(--c), var(--c)) 0 100% / 15px 1px no-repeat, linear-gradient(var(--c), var(--c)) 0 100% / 1px 15px no-repeat,
+    linear-gradient(var(--c), var(--c)) 100% 100% / 15px 1px no-repeat, linear-gradient(var(--c), var(--c)) 100% 100% / 1px 15px no-repeat; }
+
+/* 배경 아웃라인 워드 */
+.outline-word { position: absolute; pointer-events: none; user-select: none; white-space: nowrap; overflow: hidden; font-weight: 800; line-height: .8; letter-spacing: -0.05em; color: transparent; -webkit-text-stroke: 1px var(--stroke, rgba(8,27,51,.09)); }
+.on-dark .outline-word { --stroke: rgba(255,255,255,.1); }
+
+/* 십자 표식 */
+.plus { position: absolute; width: 13px; height: 13px; pointer-events: none; }
+.plus::before, .plus::after { content: ""; position: absolute; background: var(--color-accent); }
+.plus::before { left: 6px; top: 0; width: 1px; height: 13px; }
+.plus::after { top: 6px; left: 0; height: 1px; width: 13px; }
+
+/* 행 호버: 좌측 포인트 바 */
+.row-hover { position: relative; }
+.row-hover::before { content: ""; position: absolute; left: 0; top: -1px; bottom: -1px; width: 3px; background: var(--color-accent); transform: scaleY(0); transform-origin: top; transition: transform .45s cubic-bezier(.7,0,.2,1); }
+.row-hover:hover::before { transform: scaleY(1); }

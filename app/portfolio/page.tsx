@@ -4,7 +4,6 @@ import { PortfolioGrid } from "@/components/PortfolioGrid";
 import { FinalCta } from "@/components/sections";
 import { meta } from "@/lib/seo";
 
-export const revalidate = 60;
 export const metadata = meta({
   title: "홈페이지 제작 사례 | 기업·쇼핑몰·브랜드 포트폴리오",
   description: "기업 홈페이지, 쇼핑몰, 브랜드, 랜딩페이지, 맞춤 개발의 설계 방향과 화면 구성을 확인하세요. 모든 작업물은 콘셉트 프로젝트로 명확히 표시합니다.",

@@ -3,7 +3,6 @@ import { Legal } from "@/components/Legal";
 import { PRIVACY_CONSENT_VERSION } from "@/content/site";
 import { meta } from "@/lib/seo";
 
-export const revalidate = 60;
 export const metadata = meta({ title: "이용약관", description: "웹사이트 이용 및 상담 신청, 제작 서비스 안내에 관한 기본 약관입니다.", path: "/terms" });
 
 export default async function Terms() {

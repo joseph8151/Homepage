@@ -8,10 +8,13 @@ import { Arrow, Button, Label, contactHref } from "@/components/ui";
 import { Reveal } from "@/components/Reveal";
 import { FinalCta, PricingTable, ProcessList, ProjectMeta, ProjectVisual } from "@/components/sections";
 import { meta } from "@/lib/seo";
+import { getSite } from "@/lib/content";
+import { photo } from "@/lib/photos";
+import { photos } from "@/content/photos";
+import { PhotoFrame } from "@/components/Photo";
 import { faqs } from "@/content/faq";
 import { FaqSection } from "@/components/Faq";
 
-export const revalidate = 60;
 export const metadata = meta({
   title: "홈페이지 제작 업체 브랜드웰 | 기업 홈페이지·쇼핑몰·랜딩페이지",
   description: "홈페이지 제작 전문. 기업 홈페이지, 쇼핑몰, 랜딩페이지, 홈페이지 리뉴얼, SEO와 유지보수까지 비즈니스 성과를 설계합니다. 비용·기간 상담 가능.",
@@ -30,23 +33,28 @@ const intro = [
 ];
 
 export default async function Home() {
-  const [services, packages, projects, posts] = await Promise.all([getServices(), getPackages(), getProjects(), getPosts()]);
+  const [services, packages, projects, posts, site] = await Promise.all([getServices(), getPackages(), getProjects(), getPosts(), getSite()]);
   const featured = featuredSlugs.map((s) => services.find((x) => x.slug === s)!).filter(Boolean);
   const rest = services.filter((s) => !featuredSlugs.includes(s.slug));
   const showcase = projects.slice(0, 3);
+  const pDesk = photo(photos.desk);
+  const pPortrait = photo(photos.portrait);
 
   return (
     <>
       {/* 01 HERO */}
       <section className="on-dark relative overflow-hidden bg-deep text-white" aria-labelledby="hero-title">
         <div aria-hidden className="hero-lift absolute inset-0" />
+        <span aria-hidden className="outline-word bottom-[1.2rem] left-0 right-0 text-center" style={{ fontSize: "min(15.6vw, 300px)" }}>{site.brandWordmark}</span>
+        <span aria-hidden className="plus left-[calc(96px*8-6px)] top-[calc(96px*2-6px)] hidden lg:block" />
+        <span aria-hidden className="plus left-[calc(96px*12-6px)] top-[calc(96px*7-6px)] hidden lg:block" />
         <div aria-hidden className="grid-lines absolute inset-0" />
         <div className="wrap relative grid gap-16 pb-36 pt-36 md:pt-44 lg:grid-cols-12 lg:gap-10 lg:pb-44">
           <div className="lg:col-span-7">
             <Label className="text-[#8db2ff]">Digital experiences. Built for business.</Label>
             <h1 id="hero-title" className="t-hero mt-8">
-              <span className="block">웹사이트를 넘어,</span>
-              <span className="block">비즈니스의 성과를</span>
+              <span className="block text-white/60" style={{ fontWeight: 300 }}>웹사이트를 넘어,</span>
+              <span className="block">비즈니스의 <span className="text-[#6ea0ff]">성과</span>를</span>
               <span className="block">설계합니다.</span>
             </h1>
             <p className="t-body mt-9 max-w-xl text-white/70">
@@ -92,6 +100,12 @@ export default async function Home() {
               <Reveal delay={240}><p className="t-body text-mute">출시는 끝이 아니라 시작입니다. 검색 노출을 위한 기술 구조, 수정이 쉬운 관리 환경, 이후의 운영과 유지관리까지 함께 고려합니다.</p></Reveal>
             </div>
           </div>
+          {(pDesk || pPortrait) && (
+            <div className="mt-20 grid gap-6 md:mt-28 md:grid-cols-12 md:items-start">
+              {pDesk && <Reveal className="md:col-span-8"><PhotoFrame photo={pDesk} ratio="3 / 2" sizes="(min-width: 768px) 66vw, 100vw" /></Reveal>}
+              {pPortrait && <Reveal delay={140} className="md:col-span-4 md:mt-24"><PhotoFrame photo={pPortrait} ratio="4 / 5" sizes="(min-width: 768px) 33vw, 100vw" /></Reveal>}
+            </div>
+          )}
           <ul className="mt-20 grid border-t border-line md:mt-28 md:grid-cols-2 lg:grid-cols-3">
             {intro.map((t, i) => (
               <li key={t} className="border-b border-line py-6 md:py-8 lg:[&:nth-child(3n+1)]:pl-0 lg:pl-8 lg:[&:not(:nth-child(3n+1))]:border-l md:[&:nth-child(even)]:border-l md:[&:nth-child(even)]:pl-8 md:[&:nth-child(odd)]:pl-0 lg:[&:nth-child(even)]:pl-8">
@@ -119,9 +133,9 @@ export default async function Home() {
           <ol className="mt-16 border-t border-navy md:mt-24">
             {featured.map((s, i) => (
               <li key={s.slug} className="border-b border-line">
-                <Link href={`/services/${s.slug}`} className="row-hover group grid gap-x-10 gap-y-5 py-9 md:grid-cols-12 md:py-12">
-                  <span className="t-label pt-3 text-accent md:col-span-1">0{i + 1}</span>
-                  <div className="md:col-span-5">
+                <Link href={`/services/${s.slug}`} className="row-hover group grid gap-x-10 gap-y-5 py-9 md:grid-cols-12 md:items-center md:py-12">
+                  <span aria-hidden className="num-outline text-[3.6rem] text-navy/30 md:col-span-2 md:text-[5.5rem]">0{i + 1}</span>
+                  <div className="md:col-span-4">
                     <h3 className="t-sub transition-transform duration-500 group-hover:translate-x-2" style={{ fontSize: "clamp(1.85rem,1.1rem+2.4vw,3.25rem)" }}>{s.name}</h3>
                     <p className="t-label mt-4 text-mute">{s.en}</p>
                   </div>
@@ -129,7 +143,7 @@ export default async function Home() {
                     <p className="t-body text-mute">{s.summary}</p>
                     <p className="t-small mt-4 text-navy/70">{s.features.slice(0, 3).join(" · ")}</p>
                   </div>
-                  <span className="hidden items-start justify-end pt-3 md:col-span-1 md:flex"><Arrow className="text-navy transition-transform duration-300 group-hover:translate-x-2" /></span>
+                  <span className="hidden items-center justify-end md:col-span-1 md:flex"><Arrow className="text-navy transition-transform duration-300 group-hover:translate-x-2" /></span>
                 </Link>
               </li>
             ))}
@@ -178,7 +192,7 @@ export default async function Home() {
               </Reveal>
             )}
           </div>
-          <div className="mt-16"><Button href="/portfolio" variant="outline" className="text-navy hover:bg-navy hover:!text-white">포트폴리오 전체 보기</Button></div>
+          <div className="mt-16"><Button href="/portfolio" variant="outline" className="text-navy">포트폴리오 전체 보기</Button></div>
         </div>
       </section>
 
@@ -210,7 +224,7 @@ export default async function Home() {
           <div className="mt-14 md:mt-20"><PricingTable packages={packages} notice={packageNotice} /></div>
           <div className="mt-12 flex flex-wrap items-center justify-between gap-4 border-y border-line py-6">
             <p className="max-w-xl text-[1.05rem] font-medium">어떤 패키지가 맞는지 모르겠다면, 네 가지 질문으로 프로젝트 범위를 먼저 가늠해 보세요.</p>
-            <Button href="/estimate" variant="outline" className="text-navy hover:bg-navy hover:!text-white">프로젝트 범위 진단</Button>
+            <Button href="/estimate" variant="outline" className="text-navy">프로젝트 범위 진단</Button>
           </div>
         </div>
       </section>
@@ -225,8 +239,8 @@ export default async function Home() {
           <ul className="lg:col-span-7">
             {whyPoints.map((w, i) => (
               <li key={w.t} className="border-t border-navy/15 last:border-b">
-                <Reveal className="grid gap-2 py-6 sm:grid-cols-[3rem_1fr] md:py-7">
-                  <span className="t-label pt-2 text-accent">0{i + 1}</span>
+                <Reveal className="group grid gap-2 py-6 sm:grid-cols-[4.5rem_1fr] md:py-7">
+                  <span className="num-outline text-[2.2rem] text-navy/30">0{i + 1}</span>
                   <div><h3 className="text-[1.2rem] font-semibold tracking-tight">{w.t}</h3><p className="t-small mt-1.5 text-mute">{w.d}</p></div>
                 </Reveal>
               </li>

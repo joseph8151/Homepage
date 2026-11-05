@@ -5,7 +5,6 @@ import { InsightsList } from "@/components/InsightsList";
 import { FinalCta } from "@/components/sections";
 import { meta } from "@/lib/seo";
 
-export const revalidate = 60;
 export const metadata = meta({
   title: "홈페이지 제작 가이드 | 비용·기간·SEO·쇼핑몰 정보",
   description: "홈페이지 제작 비용, 제작 기간, 업체 선정, 반응형, 리뉴얼과 SEO, 쇼핑몰 운영까지 제작 전에 알아야 할 실무 정보를 정리합니다.",

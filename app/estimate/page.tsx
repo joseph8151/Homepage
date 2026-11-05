@@ -3,7 +3,6 @@ import { Estimator } from "@/components/Estimator";
 import { PageHead } from "@/components/ui";
 import { meta } from "@/lib/seo";
 
-export const revalidate = 60;
 export const metadata = meta({
   title: "홈페이지 제작 범위 진단 | 필요 기능·규모 점검",
   description: "만들고 싶은 사이트의 유형·규모·필요 기능을 선택하면 프로젝트 규모 수준과 권장 패키지를 안내합니다. 가격이 아닌 범위 진단입니다.",

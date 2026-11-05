@@ -7,7 +7,6 @@ import { Button, Label, contactHref } from "@/components/ui";
 import { FinalCta, ProjectVisual } from "@/components/sections";
 import { meta } from "@/lib/seo";
 
-export const revalidate = 60;
 export const generateStaticParams = () => defaultProjects.map((p) => ({ slug: p.slug }));
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const p = await getProject((await params).slug);

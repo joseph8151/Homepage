@@ -75,7 +75,7 @@ function DemoMobile() {
 
 export function HeroDemo() {
   return (
-    <div className="relative w-full">
+    <div className="crop relative w-full text-white/70">
       {/* 데스크톱 */}
       <div style={{ boxShadow: "0 30px 60px -30px rgba(0,0,0,.6)" }}>
         <div className="flex items-center gap-2 px-4" style={{ height: 34, background: "#0d2a4b", borderBottom: "1px solid rgba(255,255,255,.1)" }}>
