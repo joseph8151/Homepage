@@ -1,0 +1,22 @@
+{
+  "desk": {
+    "src": "/images/work-desk.jpg",
+    "w": 1168,
+    "h": 784
+  },
+  "portrait": {
+    "src": "/images/portrait-light.jpg",
+    "w": 784,
+    "h": 1168
+  },
+  "laptop": {
+    "src": "/images/laptop-beige.jpg",
+    "w": 1168,
+    "h": 784
+  },
+  "coffee": {
+    "src": "/images/coffee-break.jpg",
+    "w": 784,
+    "h": 1168
+  }
+}

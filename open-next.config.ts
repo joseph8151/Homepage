@@ -4,5 +4,5 @@ import { defineCloudflareConfig } from "@opennextjs/cloudflare";
 // 사전 렌더링된 페이지는 정적 에셋으로 제공되어 빠르고 CPU 제한에 안전합니다.
 export default {
   ...defineCloudflareConfig(),
-  buildCommand: "next build",
+  buildCommand: "node scripts/gen-photos.mjs && next build",
 };
